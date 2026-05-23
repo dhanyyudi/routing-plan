@@ -18,7 +18,9 @@ deprecated=False
 tags=routing,navigation,valhalla,directions,osm
 hasProcessingProvider=no
 server=False
-supportsQt6=True
+
+# Legacy: remove after QGIS 4 plugin repo migration
+qgisMaximumVersion=4.99
 
 [changelog]
 0.1.0 =
