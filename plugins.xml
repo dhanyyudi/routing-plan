@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugins>
+    <pyqgis_plugin name="Routing Plan" version="0.1.0">
+        <description><![CDATA[
+Turn-by-turn navigation and route planning using the Valhalla routing engine.
+Load waypoints from CSV, Excel, GeoJSON, KML, or QGIS layers. Compute routes
+with turn-by-turn directions like Google Maps. Supports route optimization,
+multiple costing modes (auto, truck, bus, taxi, motorcycle, bicycle, pedestrian),
+and avoid options (highways, tolls, ferries, unpaved). Export routes to HTML,
+GeoJSON, KML, or GeoPackage. Client-side Indonesian maneuver translation for
+local users. QGIS 4.0 / Qt6 compatible.
+        ]]></description>
+        <about><![CDATA[
+QGIS plugin for turn-by-turn navigation and route planning using the Valhalla
+routing engine. Built for QGIS 4.0+.
+        ]]></about>
+        <version>0.1.0</version>
+        <qgis_minimum_version>4.0</qgis_minimum_version>
+        <homepage>https://github.com/dhanyyudi/routing-plan</homepage>
+        <file_name>routing_plan.zip</file_name>
+        <icon>https://raw.githubusercontent.com/dhanyyudi/routing-plan/main/routing_plan/icons/icon.svg</icon>
+        <author_name>Dhany Yudi Prasetyo</author_name>
+        <download_url>https://github.com/dhanyyudi/routing-plan/releases/download/v0.1.0/routing_plan.zip</download_url>
+        <uploaded_by>dhanyyudi</uploaded_by>
+        <create_date>2026-05-23</create_date>
+        <update_date>2026-05-23</update_date>
+        <experimental>True</experimental>
+        <deprecated>False</deprecated>
+        <tracker>https://github.com/dhanyyudi/routing-plan/issues</tracker>
+        <repository>https://github.com/dhanyyudi/routing-plan</repository>
+        <tags>routing,navigation,valhalla,directions,osm</tags>
+        <server>False</server>
+    </pyqgis_plugin>
+</plugins>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Routing Plan — Directions</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+.container { display: flex; height: 100vh; }
+.sidebar { width: 380px; overflow-y: auto; border-right: 1px solid #dadce0; }
+.map { flex: 1; }
+.header { padding: 16px; border-bottom: 1px solid #e8eaed; position: sticky; top: 0; background: #fff; z-index: 1; }
+.header h1 { font-size: 18px; color: #202124; }
+.header .summary { font-size: 24px; font-weight: 700; color: #1a73e8; margin: 4px 0; }
+.header .detail { font-size: 13px; color: #5f6368; }
+.maneuver-list { padding: 0; }
+.maneuver-item { display: flex; align-items: flex-start; padding: 12px 16px; border-bottom: 1px solid #f1f3f4; gap: 12px; }
+.maneuver-item:hover { background: #f8f9fa; cursor: pointer; }
+.maneuver-item .icon { font-size: 20px; min-width: 24px; text-align: center; }
+.maneuver-item .maneuver-text { flex: 1; }
+.maneuver-item .instruction { font-size: 14px; color: #202124; }
+.maneuver-item .street { font-size: 12px; color: #5f6368; margin-top: 2px; }
+.maneuver-item .distance { font-size: 13px; color: #5f6368; white-space: nowrap; }
+@media (max-width: 768px) { .container { flex-direction: column; } .sidebar { width: 100%; max-height: 40vh; } .map { height: 60vh; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="sidebar">
+    <div class="header">
+      <h1>Routing Plan</h1>
+      <div class="summary">$distance &middot; $duration</div>
+      <div class="detail">$length_km km &middot; $time_min menit</div>
+    </div>
+    <div class="maneuver-list">
+      $maneuver_rows
+    </div>
+  </div>
+  <div class="map" id="map"></div>
+</div>
+<script>
+var geojson = $geojson_data;
+var bounds = $route_bounds;
+var map = L.map('map').fitBounds(bounds);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+var routeLayer = L.geoJSON(geojson, {
+  style: function(feature) {
+    if (feature.geometry.type === 'LineString') {
+      return { color: '#1a73e8', weight: 4, opacity: 0.9 };
+    }
+  },
+  pointToLayer: function(feature, latlng) {
+    return L.circleMarker(latlng, {
+      radius: 5,
+      fillColor: '#ffffff',
+      color: '#1a73e8',
+      weight: 2,
+      fillOpacity: 1
+    });
+  }
+}).addTo(map);
+</script>
+</body>
+</html>

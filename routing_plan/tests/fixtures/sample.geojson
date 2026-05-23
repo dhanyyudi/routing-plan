@@ -1,0 +1,15 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.827153, -6.175392]}, "properties": {"name": "Monas"}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.834091, -6.186486]}, "properties": {"name": "Stasiun Gambir"}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.816666, -6.2]}, "properties": {"name": "Tanah Abang"}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.822919, -6.194449]}, "properties": {"name": "Sarinah"}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.84513, -6.21462]}, "properties": {"name": "Menteng"}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.809731, -6.224728]}, "properties": {"name": "Senayan"}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.797188, -6.229728]}, "properties": {"name": "Gelora Bung Karno"}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.799019, -6.242256]}, "properties": {"name": "SCBD"}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.781628, -6.260759]}, "properties": {"name": "Blok M"}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.800941, -6.291689]}, "properties": {"name": "Fatmawati"}}
+  ]
+}

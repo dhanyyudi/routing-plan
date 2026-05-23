@@ -1,0 +1,34 @@
+[general]
+name=Routing Plan
+qgisMinimumVersion=4.0
+description=Turn-by-turn navigation and route planning using the Valhalla routing engine
+about=Plugin for routing waypoints (CSV/XLSX/GeoJSON/KML) with turn-by-turn
+    directions like Google Maps. Supports route optimization,
+    multiple costing modes, and avoid options.
+version=0.1.0
+author=Dhany Yudi Prasetyo
+email=dhanyyudi.prasetyo@gmail.com
+tracker=https://github.com/dhanyyudi/route-plugin-qgis/issues
+repository=https://github.com/dhanyyudi/route-plugin-qgis
+homepage=https://github.com/dhanyyudi/route-plugin-qgis
+category=Plugins
+icon=icons/icon.svg
+experimental=True
+deprecated=False
+tags=routing,navigation,valhalla,directions,osm
+hasProcessingProvider=no
+server=False
+supportsQt6=True
+
+[changelog]
+0.1.0 =
+    - Initial release
+    - Load waypoints from CSV, Excel, GeoJSON, KML, and QGIS layers
+    - Route computation via Valhalla API (auto, truck, bus, taxi, motorcycle, bicycle, pedestrian)
+    - Multi-leg route rendering with categorized colors per leg
+    - Turn-by-turn directions dock with Google Maps-style typography
+    - Export: HTML, GeoJSON, KML, GeoPackage
+    - Departure time, route optimization, avoid highways/tolls/ferries
+    - Archive and auto-clear previous routes
+    - Bilingual: English UI with optional Indonesian maneuver translation (client-side)
+    - QGIS 4.0 / Qt6 compatible

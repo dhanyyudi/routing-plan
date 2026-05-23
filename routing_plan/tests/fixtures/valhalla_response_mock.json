@@ -1,0 +1,122 @@
+{
+  "trip": {
+    "locations": [
+      {
+        "type": "break",
+        "lat": -6.175392,
+        "lon": 106.827153,
+        "name": "Monas",
+        "side_of_street": "right",
+        "original_index": 0
+      },
+      {
+        "type": "break",
+        "lat": -6.186486,
+        "lon": 106.834091,
+        "name": "Stasiun Gambir",
+        "original_index": 1
+      }
+    ],
+    "legs": [
+      {
+        "maneuvers": [
+          {
+            "type": 2,
+            "instruction": "Drive south.",
+            "verbal_succinct_transition_instruction": "Drive south. Then Turn left.",
+            "verbal_pre_transition_instruction": "Drive south. Then Turn left.",
+            "verbal_post_transition_instruction": "Continue for 40 meters.",
+            "bearing_after": 182,
+            "time": 15.022,
+            "length": 0.041,
+            "cost": 18.402,
+            "begin_shape_index": 0,
+            "end_shape_index": 1,
+            "street_names": [
+              "Jalan Medan Merdeka Utara"
+            ]
+          },
+          {
+            "type": 15,
+            "instruction": "Turn left.",
+            "verbal_succinct_transition_instruction": "Turn left.",
+            "verbal_pre_transition_instruction": "Turn left.",
+            "verbal_post_transition_instruction": "Continue for 170 meters.",
+            "bearing_after": 89,
+            "time": 16.251,
+            "length": 0.175,
+            "cost": 51.655,
+            "begin_shape_index": 1,
+            "end_shape_index": 3,
+            "street_names": [
+              "Jalan Medan Merdeka Selatan"
+            ]
+          },
+          {
+            "type": 12,
+            "instruction": "Turn right.",
+            "verbal_succinct_transition_instruction": "Turn right onto Jalan M.H. Thamrin.",
+            "verbal_pre_transition_instruction": "Turn right onto Jalan M.H. Thamrin.",
+            "verbal_post_transition_instruction": "Continue for 1.1 kilometers.",
+            "bearing_after": 171,
+            "time": 92.233,
+            "length": 1.088,
+            "cost": 290.187,
+            "begin_shape_index": 3,
+            "end_shape_index": 13,
+            "street_names": [
+              "Jalan M.H. Thamrin"
+            ]
+          },
+          {
+            "type": 4,
+            "instruction": "You have arrived at Stasiun Gambir.",
+            "verbal_succinct_transition_instruction": "You will arrive at your destination.",
+            "verbal_pre_transition_instruction": "You have arrived at your destination.",
+            "verbal_post_transition_instruction": "",
+            "bearing_after": 0,
+            "time": 0.0,
+            "length": 0.0,
+            "cost": 0.0,
+            "begin_shape_index": 13,
+            "end_shape_index": 13,
+            "street_names": [
+              "Jalan Medan Merdeka Timur"
+            ]
+          }
+        ],
+        "summary": {
+          "has_time_restrictions": false,
+          "has_toll": false,
+          "has_highway": false,
+          "has_ferry": false,
+          "min_lat": -6.18712,
+          "min_lon": 106.822966,
+          "max_lat": -6.171456,
+          "max_lon": 106.834127,
+          "time": 713.198,
+          "length": 4.249,
+          "cost": 1138.075
+        },
+        "shape": "rp|wJimkwjEfV^EmI_IV}VjAqOlAuK~@iPxAe@As@IkLmEqFmCaCkAuBaAqEgBoFhA}KhC}GpAu@jDkC`JeA`Ee@tBuGbVwAfDmBnCwBbBaClAwCz@_CXkBDkEEcC[wR{CyQmCeDYoCG_CJmBb@gB~@yAvAsBhCkArBy@|Bc@pBYbCQbDUt}@?zNAzJC~RAbBY|pAE|EGpdBDfLdF~N~CfFxFbFv@\\\\bEfAtLVdXZvfBhBnZf@hB@z{@~@fYDteEbDvFFjDBfO[bHg@vG{@hQwBj@EdEUl@c@hAo@fCu@nCUpCHjCj@~At@`At@TPfArAnC@~@?~Cj@lB@hl@yA~EK`CEdZi@hCEf@AxFKfFQfTcAjG[EmAAk@WmJKyI~@wBE_BIyCCu@CoAOgFUgJeAa`@GuCUiEAs@GyBg@cVGsCMiEAYMoFCo@OwFUiIGiCMkFKyDIiCKmEKqDMsEAq@I{CQiGO}FGoBAu@MoEYiKM{ESoHQ}GQeHO_G[yLg@sQEyAUkJMkEEsB[sLIkC?AGwBMkFQgGWoJMkFi@kSEcAa@iPGmBMgFQeHo@qUAk@K{D_@}MGyCCu@IkDG_Bv@sECiHGiCpBOv@El_AiG|F_@vSuAfSqA|Jq@dJm@tF_@xAInAKbEi@hN_A~\\\\{Dfj@}L~KeCpCi@tBc@kAiDa@oAkBiGwE}WcC_T_@}Gq@gIoDH_Mj@"
+      }
+    ],
+    "summary": {
+      "has_time_restrictions": false,
+      "has_toll": false,
+      "has_highway": false,
+      "has_ferry": false,
+      "min_lat": -6.18712,
+      "min_lon": 106.822966,
+      "max_lat": -6.171456,
+      "max_lon": 106.834127,
+      "time": 713.198,
+      "length": 4.249,
+      "cost": 1138.075
+    },
+    "status_message": "Found route between points",
+    "status": 0,
+    "units": "kilometers",
+    "language": "en-US"
+  }
+}
