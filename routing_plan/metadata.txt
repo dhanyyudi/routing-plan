@@ -5,7 +5,7 @@ description=Turn-by-turn navigation and route planning using the Valhalla routin
 about=Plugin for routing waypoints (CSV/XLSX/GeoJSON/KML) with turn-by-turn
     directions like Google Maps. Supports route optimization,
     multiple costing modes, and avoid options.
-version=0.1.0
+version=0.1.1
 author=Dhany Yudi Prasetyo
 email=dhanyyudi.prasetyo@gmail.com
 tracker=https://github.com/dhanyyudi/routing-plan/issues
@@ -23,6 +23,9 @@ server=False
 qgisMaximumVersion=4.99
 
 [changelog]
+0.1.1 =
+    - Fix: PNG icon for QGIS plugin repository compatibility
+    - Add: Buy me a coffee donation link
 0.1.0 =
     - Initial release
     - Load waypoints from CSV, Excel, GeoJSON, KML, and QGIS layers
