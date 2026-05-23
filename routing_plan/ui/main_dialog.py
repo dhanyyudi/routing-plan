@@ -85,6 +85,14 @@ class MainDialog(QDialog):
 
         layout.addLayout(btn_layout)
 
+        coffee = QLabel(
+            '<a href="https://tiptap.gg/dhanypedia/tip" '
+            'style="color: #1973f5; text-decoration: none;">☕ Buy me a coffee</a>'
+        )
+        coffee.setOpenExternalLinks(True)
+        coffee.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(coffee)
+
     # ── Tab 1: Waypoints ──────────────────────────────────────────
 
     def _build_waypoints_tab(self):

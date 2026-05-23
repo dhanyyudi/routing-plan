@@ -77,6 +77,10 @@ Open **Plugins → Routing Plan → Settings** to configure:
 
 GNU General Public License v3.0 — see [LICENSE](LICENSE).
 
+## Support
+
+☕ [Buy me a coffee](https://tiptap.gg/dhanypedia/tip) — support the development of this plugin.
+
 ## Author
 
 **Dhany Yudi Prasetyo** — [dhanyyudi.prasetyo@gmail.com](mailto:dhanyyudi.prasetyo@gmail.com)
