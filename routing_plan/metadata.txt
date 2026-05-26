@@ -6,7 +6,7 @@ about=Plugin for routing waypoints (CSV/XLSX/GeoJSON/KML) with turn-by-turn
     directions like Google Maps. Supports dual routing engines (Valhalla +
     OSRM), route optimization, isochrones, OD matrix, map matching,
     elevation profiles, and snap-to-road utility.
-version=0.2.0
+version=0.2.1
 author=Dhany Yudi Prasetyo
 email=dhanyyudi.prasetyo@gmail.com
 tracker=https://github.com/dhanyyudi/routing-plan/issues
@@ -24,6 +24,11 @@ server=False
 qgisMaximumVersion=4.99
 
 [changelog]
+0.2.1 =
+    - Fix: validate URL scheme (http/https) before urlopen in OSRMClient
+      (Bandit B310 — blocked v0.2.0 from plugins.qgis.org approval)
+    - Fix: address Flake8 E226, E241, W503 reported by the plugin scanner
+      (route_renderer, main_dialog, smoke test)
 0.2.0 =
     - Add OSRM as an alternative routing engine (global coverage; car/bike/foot)
     - Add Valhalla Isochrones dialog (reachability polygons)
