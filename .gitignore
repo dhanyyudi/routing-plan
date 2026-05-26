@@ -5,3 +5,9 @@ __pycache__/
 .DS_Store
 *.egg-info/
 .pytest_cache/
+
+# Internal planning docs — not for public consumption
+.agents/
+.claude/
+.plan/
+AGENTS.md
