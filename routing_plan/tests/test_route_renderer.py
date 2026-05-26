@@ -11,15 +11,13 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 with open(FIXTURES_DIR / "valhalla_response_mock.json") as f:
     MOCK_RESPONSE = json.load(f)
 
-from routing_plan.core.route_renderer import (
+from routing_plan.core.route_renderer import (  # noqa: E402
     ROUTE_COLOR,
     ROUTE_WIDTH,
     MANEUVER_RADIUS,
-    MANEUVER_FILL,
-    MANEUVER_STROKE,
     LAYER_GROUP_NAME,
 )
-from routing_plan.core.valhalla_client import decode_polyline6
+from routing_plan.core.valhalla_client import decode_polyline6  # noqa: E402
 
 
 class TestConstants:

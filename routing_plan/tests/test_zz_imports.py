@@ -50,39 +50,51 @@ def mock_qgis_modules():
 def test_import_plugin():
     import routing_plan.plugin  # noqa: F401
 
+
 def test_import_core():
     import routing_plan.core.core  # noqa: F401
+
 
 def test_import_route_task():
     import routing_plan.core.route_task  # noqa: F401
 
+
 def test_import_valhalla_client():
     import routing_plan.core.valhalla_client  # noqa: F401
+
 
 def test_import_waypoint_loader():
     import routing_plan.core.waypoint_loader  # noqa: F401
 
+
 def test_import_route_renderer():
     import routing_plan.core.route_renderer  # noqa: F401
+
 
 def test_import_maneuver_formatter():
     import routing_plan.core.maneuver_formatter  # noqa: F401
 
+
 def test_import_exporter():
     import routing_plan.core.exporter  # noqa: F401
+
 
 def test_import_settings():
     import routing_plan.core.settings  # noqa: F401
 
+
 def test_import_main_dialog():
     import routing_plan.ui.main_dialog  # noqa: F401
+
 
 def test_import_directions_dock():
     """REGRESSION GUARD: caught audit-3 Fix #1 ModuleNotFoundError."""
     import routing_plan.ui.directions_dock  # noqa: F401
 
+
 def test_import_settings_dialog():
     import routing_plan.ui.settings_dialog  # noqa: F401
+
 
 def test_import_i18n():
     import routing_plan.i18n  # noqa: F401

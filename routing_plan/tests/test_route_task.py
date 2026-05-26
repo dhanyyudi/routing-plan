@@ -1,12 +1,12 @@
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from routing_plan.core.valhalla_client import ValhallaError
+from routing_plan.core.valhalla_client import ValhallaError  # noqa: E402
 
 
 # ── Mock QgsTask to allow RouteTask tests outside QGIS ──

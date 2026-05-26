@@ -4,8 +4,6 @@ import sys
 import tempfile
 from pathlib import Path
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
@@ -13,7 +11,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 with open(FIXTURES_DIR / "valhalla_response_mock.json") as f:
     MOCK_RESPONSE = json.load(f)
 
-from routing_plan.core.exporter import (
+from routing_plan.core.exporter import (  # noqa: E402
     export_html,
     export_geojson,
     export_kml,

@@ -1,8 +1,7 @@
 import csv
 import json
-import os
-from dataclasses import dataclass, field
-from typing import List, Optional
+from dataclasses import dataclass
+from typing import Optional
 
 LAT_ALIASES = {"lat", "latitude", "y", "lintang"}
 LON_ALIASES = {"lon", "long", "longitude", "x", "bujur"}

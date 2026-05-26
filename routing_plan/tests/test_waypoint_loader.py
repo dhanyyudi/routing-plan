@@ -4,7 +4,7 @@ from pathlib import Path
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
-import sys
+import sys  # noqa: E402
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 try:
     import qgis.core  # noqa: F401
@@ -12,7 +12,7 @@ try:
 except ModuleNotFoundError:
     HAS_QGIS = False
 
-from routing_plan.core.waypoint_loader import (
+from routing_plan.core.waypoint_loader import (  # noqa: E402
     Waypoint,
     load_csv,
     load_xlsx,

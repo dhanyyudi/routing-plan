@@ -29,10 +29,9 @@ STOP_STROKE_WIDTH = 1.5
 
 def build_route_layer(response, crs="EPSG:4326"):
     from qgis.core import (
-        QgsVectorLayer, QgsField, QgsFeature, QgsGeometry,
-        QgsPointXY, QgsProject, QgsLayerTreeGroup,
+        QgsVectorLayer, QgsFeature, QgsGeometry,
+        QgsPointXY,
     )
-    from qgis.PyQt.QtCore import QVariant
 
     legs = response.get("trip", {}).get("legs", [])
     units = response.get("trip", {}).get("units", "kilometers")
@@ -82,10 +81,9 @@ def build_route_layer(response, crs="EPSG:4326"):
 
 def build_maneuvers_layer(response, crs="EPSG:4326"):
     from qgis.core import (
-        QgsVectorLayer, QgsField, QgsFeature, QgsGeometry,
-        QgsPointXY, QgsProject,
+        QgsVectorLayer, QgsFeature, QgsGeometry,
+        QgsPointXY,
     )
-    from qgis.PyQt.QtCore import QVariant
 
     legs = response.get("trip", {}).get("legs", [])
     units = response.get("trip", {}).get("units", "kilometers")

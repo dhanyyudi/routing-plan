@@ -3,7 +3,6 @@ from qgis.PyQt.QtWidgets import (
     QLabel, QLineEdit, QComboBox, QSpinBox, QPushButton,
     QDialogButtonBox, QCheckBox,
 )
-from qgis.PyQt.QtCore import Qt
 
 from ..core.settings import PluginSettings
 from ..i18n import tr

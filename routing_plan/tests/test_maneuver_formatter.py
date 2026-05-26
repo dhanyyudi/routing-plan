@@ -5,7 +5,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from routing_plan.core.maneuver_formatter import (
+from routing_plan.core.maneuver_formatter import (  # noqa: E402
     format_distance,
     format_duration,
     format_total_summary,
@@ -89,7 +89,6 @@ class TestFormatTotalSummary:
             }
         }
         result = format_total_summary(response)
-        distance_m = 10.0 * 1609.34
         assert result["length_km"] == 10.0
 
 

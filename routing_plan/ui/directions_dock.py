@@ -6,7 +6,6 @@ from qgis.PyQt.QtWidgets import QStyledItemDelegate, QStyle
 
 from ..core.maneuver_formatter import (
     format_distance,
-    format_duration,
     format_total_summary,
     icon_path_for_maneuver_type,
     unicode_for_maneuver_type,
@@ -56,7 +55,6 @@ class DirectionItemDelegate(QStyledItemDelegate):
             self.ICON_SIZE, self.ICON_SIZE,
         )
         if icon and not icon.isNull():
-            mode = QIcon.Mode.Selected if (option.state & QStyle.StateFlag.State_Selected) else QIcon.Mode.Normal
             self._tinted_icon(icon, text_color).paint(painter, icon_rect, Qt.AlignmentFlag.AlignCenter)
 
         # Text area
@@ -114,14 +112,6 @@ class DirectionItemDelegate(QStyledItemDelegate):
 
 class DirectionsDock:
     def __init__(self, iface):
-        from qgis.PyQt.QtCore import Qt, QSize
-        from qgis.PyQt.QtGui import QIcon, QFont
-        from qgis.PyQt.QtWidgets import (
-            QDockWidget, QWidget, QVBoxLayout, QHBoxLayout,
-            QLabel, QPushButton, QListWidget, QListWidgetItem,
-            QSizePolicy, QSpacerItem,
-        )
-
         self.iface = iface
         self.plugin_dir = os.path.dirname(os.path.dirname(__file__))
         self.dock_widget = None
@@ -139,12 +129,6 @@ class DirectionsDock:
 
     def show(self, response, route_layer=None, maneuvers_layer=None, lang="en"):
         from qgis.PyQt.QtCore import Qt
-        from qgis.PyQt.QtGui import QFont
-        from qgis.PyQt.QtWidgets import (
-            QDockWidget, QWidget, QVBoxLayout, QHBoxLayout,
-            QLabel, QPushButton, QListWidget, QListWidgetItem,
-            QSizePolicy,
-        )
 
         self._last_response = response
         self._route_layer = route_layer
@@ -164,11 +148,10 @@ class DirectionsDock:
             self.dock_widget.hide()
 
     def _build_ui(self):
-        from qgis.PyQt.QtCore import Qt
         from qgis.PyQt.QtGui import QFont
         from qgis.PyQt.QtWidgets import (
             QDockWidget, QWidget, QVBoxLayout, QHBoxLayout,
-            QLabel, QPushButton, QListWidget, QListWidgetItem, QSizePolicy,
+            QLabel, QPushButton, QListWidget,
         )
 
         self.dock_widget = QDockWidget("Directions", self.iface.mainWindow())

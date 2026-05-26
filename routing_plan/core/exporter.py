@@ -4,7 +4,6 @@ from string import Template
 
 from .maneuver_formatter import (
     format_distance,
-    format_duration,
     format_total_summary,
     unicode_for_maneuver_type,
 )
@@ -91,13 +90,13 @@ def export_kml(response, output_path):
             length_val = length_val * 1.60934
 
         lines.extend([
-            f"    <Placemark>",
+            "    <Placemark>",
             f"      <name>Leg {i + 1}: {from_name} → {to_name}</name>",
             f"      <description>Distance: {length_val:.2f} km | Time: {s.get('time', 0) / 60:.1f} min</description>",
-            f"      <LineString>",
+            "      <LineString>",
             f"        <coordinates>{coord_str}</coordinates>",
-            f"      </LineString>",
-            f"    </Placemark>",
+            "      </LineString>",
+            "    </Placemark>",
         ])
 
     for m_idx, leg in enumerate(legs):
@@ -109,12 +108,12 @@ def export_kml(response, output_path):
                 continue
             lat, lon = coords[idx]
             lines.extend([
-                f"    <Placemark>",
+                "    <Placemark>",
                 f"      <name>Maneuver {m_idx}_{n}: {m.get('instruction', '')}</name>",
-                f"      <Point>",
+                "      <Point>",
                 f"        <coordinates>{lon},{lat},0</coordinates>",
-                f"      </Point>",
-                f"    </Placemark>",
+                "      </Point>",
+                "    </Placemark>",
             ])
 
     lines.extend([
@@ -274,7 +273,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 .header .summary { font-size: 24px; font-weight: 700; color: #1a73e8; margin: 4px 0; }
 .header .detail { font-size: 13px; color: #5f6368; }
 .maneuver-list { padding: 0; }
-.maneuver-item { display: flex; align-items: flex-start; padding: 12px 16px; border-bottom: 1px solid #f1f3f4; gap: 12px; }
+.maneuver-item { display: flex; align-items: flex-start; padding: 12px 16px;
+    border-bottom: 1px solid #f1f3f4; gap: 12px; }
 .maneuver-item:hover { background: #f8f9fa; }
 .maneuver-item .icon { font-size: 20px; min-width: 24px; text-align: center; }
 .maneuver-item .maneuver-text { flex: 1; }

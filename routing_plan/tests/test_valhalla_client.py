@@ -1,18 +1,16 @@
 import json
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, patch, PropertyMock
+from unittest.mock import patch
 
 import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from routing_plan.core.valhalla_client import (
+from routing_plan.core.valhalla_client import (  # noqa: E402
     decode_polyline6,
     ValhallaError,
     _classify_error,
     ValhallaClient,
-    NO_ROUTE_CODES,
-    OUT_OF_COVERAGE_CODES,
 )
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"

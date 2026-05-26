@@ -1,7 +1,5 @@
-from .waypoint_loader import Waypoint
-from .valhalla_client import ValhallaClient, ValhallaError
+from .valhalla_client import ValhallaClient
 from .route_renderer import build_route_layer, build_maneuvers_layer, build_stops_layer
-from .maneuver_formatter import format_total_summary
 
 
 class ValhallaNavigatorCore:
@@ -32,7 +30,8 @@ class ValhallaNavigatorCore:
             self.iface.messageBar().pushSuccess("Routing Plan", tr("settings_saved"))
 
     def _demo_flow(self):
-        import json, os
+        import json
+        import os
 
         fixture_path = os.path.join(
             os.path.dirname(__file__), "..", "tests", "fixtures", "valhalla_response_mock.json"

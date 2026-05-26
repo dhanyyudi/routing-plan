@@ -1,7 +1,6 @@
 """Smoke test integration — verifies test-samples/ data + icon wiring without QGIS GUI."""
 import os
 import pytest
-import tempfile
 from dataclasses import replace
 
 ROOT = os.path.dirname(os.path.dirname(__file__))

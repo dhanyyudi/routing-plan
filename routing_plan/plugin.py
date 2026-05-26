@@ -1,7 +1,6 @@
 import os
 
 from qgis.PyQt.QtGui import QIcon, QAction
-from qgis.PyQt.QtWidgets import QToolBar
 
 from .core import ValhallaNavigatorCore
 

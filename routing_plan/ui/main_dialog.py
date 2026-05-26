@@ -3,10 +3,10 @@ from qgis.PyQt.QtWidgets import (
     QLabel, QPushButton, QTableWidget, QTableWidgetItem,
     QComboBox, QFileDialog, QMessageBox, QCheckBox, QSpinBox,
     QDoubleSpinBox, QGroupBox, QFormLayout, QHeaderView,
-    QAbstractItemView, QLineEdit, QInputDialog,
+    QAbstractItemView, QLineEdit,
 )
 from qgis.PyQt.QtCore import Qt
-from qgis.core import QgsProject, QgsMessageLog, Qgis
+from qgis.core import QgsProject, Qgis
 
 COSTING_MODES = [
     ("auto", "Auto"),
@@ -467,8 +467,8 @@ class MainDialog(QDialog):
     def _load_from_layer(self):
         layers = QgsProject.instance().mapLayers().values()
         vector_layers = [
-            l for l in layers
-            if l.type() == Qgis.LayerType.Vector
+            lyr for lyr in layers
+            if lyr.type() == Qgis.LayerType.Vector
         ]
         if not vector_layers:
             QMessageBox.information(
@@ -478,7 +478,7 @@ class MainDialog(QDialog):
             )
             return
 
-        items = [l.name() for l in vector_layers]
+        items = [lyr.name() for lyr in vector_layers]
         from qgis.PyQt.QtWidgets import QInputDialog
         name, ok = QInputDialog.getItem(
             self, "Select Layer", "Layer:", items, 0, False,

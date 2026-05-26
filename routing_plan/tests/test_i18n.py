@@ -1,11 +1,9 @@
 import sys
 from pathlib import Path
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from routing_plan.i18n.translator import Translator
+from routing_plan.i18n.translator import Translator  # noqa: E402
 
 
 class TestTranslator:
