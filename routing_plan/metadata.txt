@@ -5,7 +5,7 @@ description=Turn-by-turn navigation and route planning using the Valhalla routin
 about=Plugin for routing waypoints (CSV/XLSX/GeoJSON/KML) with turn-by-turn
     directions like Google Maps. Supports route optimization,
     multiple costing modes, and avoid options.
-version=0.1.1
+version=0.1.2
 author=Dhany Yudi Prasetyo
 email=dhanyyudi.prasetyo@gmail.com
 tracker=https://github.com/dhanyyudi/routing-plan/issues
