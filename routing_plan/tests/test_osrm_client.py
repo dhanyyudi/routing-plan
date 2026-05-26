@@ -34,6 +34,21 @@ class TestOSRMError:
         assert "NoRoute" in str(err)
 
 
+class TestOSRMUrlSchemeGuard:
+    """Bandit B310 mitigation — refuse non-http(s) URLs at the
+    ``_do_get`` boundary even if an attacker-supplied endpoint setting
+    tries to coerce ``urllib.request.urlopen`` into reading local files."""
+
+    @pytest.mark.parametrize("bad_scheme", ["file", "ftp", "gopher", "javascript", ""])
+    def test_rejects_non_http_schemes(self, bad_scheme):
+        client = OSRMClient(endpoint=f"{bad_scheme}://attacker/etc/passwd")
+        url = f"{bad_scheme}://attacker/etc/passwd/anything"
+        with pytest.raises(OSRMError) as excinfo:
+            client._do_get(url)
+        assert excinfo.value.kind == "invalid"
+        assert excinfo.value.code == "InvalidUrl"
+
+
 class TestOSRMClientUnsupported:
     def test_unsupported_features_raise(self):
         client = OSRMClient(endpoint="http://test")

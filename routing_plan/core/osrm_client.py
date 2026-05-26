@@ -9,8 +9,9 @@ Valhalla-shaped responses for ``route``, ``optimized_route``, ``matrix``,
 from __future__ import annotations
 
 import json
-import urllib.request
 import urllib.error
+import urllib.parse
+import urllib.request
 from typing import Any
 
 from .engine import EngineCapabilityError, VALHALLA_TO_OSRM_COSTING
@@ -199,12 +200,26 @@ class OSRMClient:
         return ";".join(parts)
 
     def _do_get(self, url: str) -> dict[str, Any]:
-        """Perform a GET request and return parsed JSON."""
+        """Perform a GET request and return parsed JSON.
+
+        The URL scheme is validated to ``http`` or ``https`` before
+        the request is made so that an attacker-supplied endpoint
+        configuration can not coerce ``urllib`` into reading a local
+        ``file://`` resource (Bandit B310).
+        """
         from qgis.core import QgsMessageLog, Qgis
+
+        parsed = urllib.parse.urlparse(url)
+        if parsed.scheme not in ("http", "https"):
+            raise OSRMError(
+                "invalid", "InvalidUrl",
+                f"Refusing to open URL with unsupported scheme: {parsed.scheme!r}",
+            )
 
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "RoutingPlanQGIS/0.2.0"})
-            with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+            # nosec B310 — scheme is validated above; only http/https reach here.
+            with urllib.request.urlopen(req, timeout=self.timeout) as resp:  # noqa: S310
                 raw = resp.read().decode("utf-8")
                 data = json.loads(raw)
 

@@ -67,7 +67,7 @@ def build_route_layer(response, crs="EPSG:4326"):
         if i < len(locs):
             label_parts.append(locs[i].get("name", f"WP {i}"))
         if i + 1 < len(locs):
-            label_parts.append(locs[i + 1].get("name", f"WP {i+1}"))
+            label_parts.append(locs[i + 1].get("name", f"WP {i + 1}"))
         leg_summary = " → ".join(label_parts) if label_parts else f"Leg {i}"
 
         feat.setAttributes([i, leg_summary, distance_km, duration_min])

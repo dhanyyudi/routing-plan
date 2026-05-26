@@ -129,7 +129,7 @@ class TestRouteLayerLogic:
             if i < len(locs):
                 parts.append(locs[i].get("name", f"WP {i}"))
             if i + 1 < len(locs):
-                parts.append(locs[i + 1].get("name", f"WP {i+1}"))
+                parts.append(locs[i + 1].get("name", f"WP {i + 1}"))
             label = " → ".join(parts) if parts else f"Leg {i}"
             labels.append(label)
         assert labels == ["Monas → Stasiun Gambir"]

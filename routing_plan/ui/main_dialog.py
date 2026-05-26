@@ -300,10 +300,10 @@ class MainDialog(QDialog):
         self._avoid_checkboxes = {}
         _avoidable = [
             ("motorway", "Motorway / freeway"),
-            ("trunk",    "Trunk / national road"),
-            ("toll",     "Toll road (toll=yes)"),
-            ("ferry",    "Ferry"),
-            ("track",    "Track / unpaved road"),
+            ("trunk", "Trunk / national road"),
+            ("toll", "Toll road (toll=yes)"),
+            ("ferry", "Ferry"),
+            ("track", "Track / unpaved road"),
             ("living_street", "Living street"),
         ]
         for key, label in _avoidable:
@@ -666,8 +666,8 @@ class MainDialog(QDialog):
 
     def _is_in_indonesia(self, wp):
         return (
-            self._INDONESIA_BBOX["lat_min"] <= wp.lat <= self._INDONESIA_BBOX["lat_max"]
-            and self._INDONESIA_BBOX["lon_min"] <= wp.lon <= self._INDONESIA_BBOX["lon_max"]
+            self._INDONESIA_BBOX["lat_min"] <= wp.lat <= self._INDONESIA_BBOX["lat_max"] and
+            self._INDONESIA_BBOX["lon_min"] <= wp.lon <= self._INDONESIA_BBOX["lon_max"]
         )
 
     def _on_compute(self):
