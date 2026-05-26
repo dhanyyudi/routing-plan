@@ -1,16 +1,16 @@
 import os
 
 MANEUVER_TYPE_ICON = {
-    0:  "straight",        # kNone
-    1:  "depart",          # kStart
-    2:  "straight",        # kStartRight
-    3:  "straight",        # kStartLeft
-    4:  "arrive",          # kDestination
-    5:  "straight",        # kDestinationRight
-    6:  "straight",        # kDestinationLeft
-    7:  "straight",        # kBecomes (unused?)
-    8:  "straight",        # kBecomes
-    9:  "continue",        # kContinue
+    0: "straight",        # kNone
+    1: "depart",          # kStart
+    2: "straight",        # kStartRight
+    3: "straight",        # kStartLeft
+    4: "arrive",          # kDestination
+    5: "straight",        # kDestinationRight
+    6: "straight",        # kDestinationLeft
+    7: "straight",        # kBecomes (unused?)
+    8: "straight",        # kBecomes
+    9: "continue",        # kContinue
     10: "slight_right",    # kSlightRight
     11: "turn_right",      # kRight
     12: "sharp_right",     # kSharpRight
@@ -42,43 +42,43 @@ MANEUVER_TYPE_ICON = {
 }
 
 MANEUVER_UNICODE = {
-    "depart":       "⬆",
-    "arrive":       "🏁",
-    "straight":     "⬆",
-    "continue":     "⬆",
-    "turn_left":    "↰",
-    "turn_right":   "↱",
-    "slight_left":  "↖",
+    "depart": "⬆",
+    "arrive": "🏁",
+    "straight": "⬆",
+    "continue": "⬆",
+    "turn_left": "↰",
+    "turn_right": "↱",
+    "slight_left": "↖",
     "slight_right": "↗",
-    "sharp_left":   "⤺",
-    "sharp_right":  "⤻",
-    "uturn_left":   "↶",
-    "uturn_right":  "↷",
-    "roundabout":   "↺",
-    "ramp_left":    "↖",
-    "ramp_right":   "↗",
-    "merge":        "⤴",
-    "ferry":        "⛴",
+    "sharp_left": "⤺",
+    "sharp_right": "⤻",
+    "uturn_left": "↶",
+    "uturn_right": "↷",
+    "roundabout": "↺",
+    "ramp_left": "↖",
+    "ramp_right": "↗",
+    "merge": "⤴",
+    "ferry": "⛴",
 }
 
 ICON_NAMES = {
-    "depart":       "maneuver_depart",
-    "arrive":       "maneuver_arrive",
-    "straight":     "maneuver_straight",
-    "continue":     "maneuver_straight",
-    "turn_left":    "maneuver_turn_left",
-    "turn_right":   "maneuver_turn_right",
-    "slight_left":  "maneuver_slight_left",
+    "depart": "maneuver_depart",
+    "arrive": "maneuver_arrive",
+    "straight": "maneuver_straight",
+    "continue": "maneuver_straight",
+    "turn_left": "maneuver_turn_left",
+    "turn_right": "maneuver_turn_right",
+    "slight_left": "maneuver_slight_left",
     "slight_right": "maneuver_slight_right",
-    "sharp_left":   "maneuver_sharp_left",
-    "sharp_right":  "maneuver_sharp_right",
-    "uturn_left":   "maneuver_uturn_left",
-    "uturn_right":  "maneuver_uturn_right",
-    "roundabout":   "maneuver_roundabout",
-    "ramp_left":    "maneuver_ramp_left",
-    "ramp_right":   "maneuver_ramp_right",
-    "merge":        "maneuver_merge",
-    "ferry":        "maneuver_ferry",
+    "sharp_left": "maneuver_sharp_left",
+    "sharp_right": "maneuver_sharp_right",
+    "uturn_left": "maneuver_uturn_left",
+    "uturn_right": "maneuver_uturn_right",
+    "roundabout": "maneuver_roundabout",
+    "ramp_left": "maneuver_ramp_left",
+    "ramp_right": "maneuver_ramp_right",
+    "merge": "maneuver_merge",
+    "ferry": "maneuver_ferry",
 }
 
 
