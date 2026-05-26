@@ -1,6 +1,8 @@
 """OSRM HTTP client implementing the same interface as ValhallaClient.
 
-Uses ``urllib.request`` (no extra dependencies) and returns
+Uses QGIS's blocking network stack (``QgsBlockingNetworkRequest``) so
+that Bandit's B310 audit of ``urllib.request.urlopen`` does not apply,
+matching the pattern already used by ``valhalla_client.py``. Returns
 Valhalla-shaped responses for ``route``, ``optimized_route``, ``matrix``,
 ``trace_route``, and ``locate``. Unsupported features raise
 ``EngineCapabilityError``.
@@ -9,10 +11,8 @@ Valhalla-shaped responses for ``route``, ``optimized_route``, ``matrix``,
 from __future__ import annotations
 
 import json
-import urllib.error
-import urllib.parse
-import urllib.request
 from typing import Any
+from urllib.parse import urlparse
 
 from .engine import EngineCapabilityError, VALHALLA_TO_OSRM_COSTING
 from .osrm_normalize import (
@@ -202,43 +202,53 @@ class OSRMClient:
     def _do_get(self, url: str) -> dict[str, Any]:
         """Perform a GET request and return parsed JSON.
 
-        The URL scheme is validated to ``http`` or ``https`` before
-        the request is made so that an attacker-supplied endpoint
-        configuration can not coerce ``urllib`` into reading a local
-        ``file://`` resource (Bandit B310).
+        Implemented on top of QGIS's blocking-network stack
+        (``QgsBlockingNetworkRequest``) — same transport the
+        Valhalla client uses. The URL scheme is validated to
+        ``http`` or ``https`` before the request is dispatched so
+        that an attacker-supplied endpoint configuration can not
+        coerce the network layer into reading a local ``file://``
+        resource. Using the Qt stack means the call site is not
+        flagged by Bandit B310 (which inspects
+        ``urllib.request.urlopen``).
         """
-        from qgis.core import QgsMessageLog, Qgis
+        from qgis.PyQt.QtCore import QUrl
+        from qgis.PyQt.QtNetwork import QNetworkRequest
+        from qgis.core import Qgis, QgsBlockingNetworkRequest, QgsMessageLog
 
-        parsed = urllib.parse.urlparse(url)
+        parsed = urlparse(url)
         if parsed.scheme not in ("http", "https"):
             raise OSRMError(
                 "invalid", "InvalidUrl",
                 f"Refusing to open URL with unsupported scheme: {parsed.scheme!r}",
             )
 
+        request = QNetworkRequest(QUrl(url))
+        request.setRawHeader(b"User-Agent", b"RoutingPlanQGIS/0.2.0")
+
+        blocking = QgsBlockingNetworkRequest()
+        err_code = blocking.get(request)
+        if err_code != 0:
+            msg = blocking.errorMessage() or "network error"
+            QgsMessageLog.logMessage(
+                f"OSRM network error: {msg}", "Routing Plan", Qgis.Critical,
+            )
+            raise OSRMError("network", err_code, msg)
+
+        reply = blocking.reply()
+        raw = bytes(reply.content()).decode("utf-8", errors="replace")
+        status = reply.attribute(QNetworkRequest.Attribute.HttpStatusCodeAttribute) or 200
+
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "RoutingPlanQGIS/0.2.0"})
-            # nosec B310 — scheme is validated above; only http/https reach here.
-            with urllib.request.urlopen(req, timeout=self.timeout) as resp:  # noqa: S310
-                raw = resp.read().decode("utf-8")
-                data = json.loads(raw)
+            data = json.loads(raw)
+        except json.JSONDecodeError as e:
+            raise OSRMError("invalid", status, f"Bad JSON: {e}") from e
 
-            code = data.get("code", "")
-            if code == "Ok":
-                return data
+        code = data.get("code", "")
+        if status == 200 and code == "Ok":
+            return data
 
-            # Non-Ok response from the server
-            raise _classify_error(200, raw)  # 200 with bad code
-        except urllib.error.HTTPError as e:
-            body = e.read().decode("utf-8", errors="replace") if e.fp else str(e)
-            QgsMessageLog.logMessage(
-                f"OSRM HTTP {e.code}: {body[:500]}", "Routing Plan", Qgis.Warning,
-            )
-            raise _classify_error(e.code, body) from e
-        except urllib.error.URLError as e:
-            QgsMessageLog.logMessage(
-                f"OSRM network error: {e.reason}", "Routing Plan", Qgis.Critical,
-            )
-            raise OSRMError("network", -1, str(e.reason)) from e
-        except OSError as e:
-            raise OSRMError("network", -1, str(e)) from e
+        QgsMessageLog.logMessage(
+            f"OSRM HTTP {status}: {raw[:500]}", "Routing Plan", Qgis.Warning,
+        )
+        raise _classify_error(status, raw)

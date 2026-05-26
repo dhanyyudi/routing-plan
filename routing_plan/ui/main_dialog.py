@@ -665,10 +665,10 @@ class MainDialog(QDialog):
     }
 
     def _is_in_indonesia(self, wp):
-        return (
-            self._INDONESIA_BBOX["lat_min"] <= wp.lat <= self._INDONESIA_BBOX["lat_max"] and
-            self._INDONESIA_BBOX["lon_min"] <= wp.lon <= self._INDONESIA_BBOX["lon_max"]
-        )
+        bbox = self._INDONESIA_BBOX
+        lat_ok = bbox["lat_min"] <= wp.lat <= bbox["lat_max"]
+        lon_ok = bbox["lon_min"] <= wp.lon <= bbox["lon_max"]
+        return lat_ok and lon_ok
 
     def _on_compute(self):
         waypoints = self._get_waypoints_in_order()

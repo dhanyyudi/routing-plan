@@ -13,10 +13,9 @@ INDONESIA_BBOX = {
 
 
 def is_in_indonesia(wp):
-    return (
-        INDONESIA_BBOX["lat_min"] <= wp.lat <= INDONESIA_BBOX["lat_max"] and
-        INDONESIA_BBOX["lon_min"] <= wp.lon <= INDONESIA_BBOX["lon_max"]
-    )
+    lat_ok = INDONESIA_BBOX["lat_min"] <= wp.lat <= INDONESIA_BBOX["lat_max"]
+    lon_ok = INDONESIA_BBOX["lon_min"] <= wp.lon <= INDONESIA_BBOX["lon_max"]
+    return lat_ok and lon_ok
 
 
 # ── OPEN-5: test-samples data-level smoke ──────────────────────────
