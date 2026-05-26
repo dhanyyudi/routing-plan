@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugins>
-  <plugin name="Routing Plan" version="0.1.3">
+  <plugin name="Routing Plan" version="0.2.0">
     <description><![CDATA[
 Turn-by-turn navigation plugin using Valhalla routing engine.
 Load waypoints from CSV/XLSX/GeoJSON/KML, compute routes with 8 costing modes,
@@ -10,11 +10,11 @@ export to HTML/GeoJSON/KML/GeoPackage.
 QGIS plugin for turn-by-turn navigation using Valhalla.
 Personal & community project. Built for QGIS 4.0+.
     ]]></about>
-    <version>0.1.3</version>
+    <version>0.2.0</version>
     <qgis_minimum_version>4.0.0</qgis_minimum_version>
     <homepage>https://github.com/dhanyyudi/routing-plan</homepage>
     <file_name>routing_plan.zip</file_name>
     <author>Dhany Yudi Prasetyo</author>
-    <download_url>https://github.com/dhanyyudi/routing-plan/releases/download/v0.1.3/routing_plan.zip</download_url>
+    <download_url>https://github.com/dhanyyudi/routing-plan/releases/download/v0.2.0/routing_plan.zip</download_url>
   </plugin>
 </plugins>

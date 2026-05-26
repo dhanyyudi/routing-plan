@@ -1,11 +1,12 @@
 [general]
 name=Routing Plan
 qgisMinimumVersion=4.0
-description=Turn-by-turn navigation and route planning using the Valhalla routing engine
+description=Routing, isochrones, OD matrix, map matching, and elevation analysis powered by Valhalla and OSRM. Works globally via OSRM, with deep Valhalla support for Indonesia and any self-hosted Valhalla server.
 about=Plugin for routing waypoints (CSV/XLSX/GeoJSON/KML) with turn-by-turn
-    directions like Google Maps. Supports route optimization,
-    multiple costing modes, and avoid options.
-version=0.1.3
+    directions like Google Maps. Supports dual routing engines (Valhalla +
+    OSRM), route optimization, isochrones, OD matrix, map matching,
+    elevation profiles, and snap-to-road utility.
+version=0.2.0
 author=Dhany Yudi Prasetyo
 email=dhanyyudi.prasetyo@gmail.com
 tracker=https://github.com/dhanyyudi/routing-plan/issues
@@ -23,6 +24,16 @@ server=False
 qgisMaximumVersion=4.99
 
 [changelog]
+0.2.0 =
+    - Add OSRM as an alternative routing engine (global coverage; car/bike/foot)
+    - Add Valhalla Isochrones dialog (reachability polygons)
+    - Add OD Matrix dialog (Valhalla sources_to_targets, OSRM /table)
+    - Add Map Matching dialog (Valhalla trace_route/trace_attributes, OSRM /match)
+    - Add Expansion debug visualization (Valhalla)
+    - Add Elevation profile dialog (Valhalla /height)
+    - Add Snap to Road / Locate utility (Valhalla /locate, OSRM /nearest)
+    - Per-engine endpoint configuration in Settings
+    - Refreshed README and metadata description for the dual-engine feature set
 0.1.3 =
     - Code quality: collapse aligned dict literals in maneuver_formatter (E241)
     - No functional changes
