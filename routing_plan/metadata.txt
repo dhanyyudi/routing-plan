@@ -6,7 +6,7 @@ about=Plugin for routing waypoints (CSV/XLSX/GeoJSON/KML) with turn-by-turn
     directions like Google Maps. Supports dual routing engines (Valhalla +
     OSRM), route optimization, isochrones, OD matrix, map matching,
     elevation profiles, and snap-to-road utility.
-version=0.2.2
+version=0.2.1
 author=Dhany Yudi Prasetyo
 email=dhanyyudi.prasetyo@gmail.com
 tracker=https://github.com/dhanyyudi/routing-plan/issues
@@ -24,20 +24,16 @@ server=False
 qgisMaximumVersion=4.99
 
 [changelog]
-0.2.2 =
+0.2.1 =
     - Fix: replace urllib.request.urlopen in OSRMClient with QGIS's
       QgsBlockingNetworkRequest (same transport ValhallaClient uses).
-      Bandit B310 was still flagged in v0.2.1 because plugins.qgis.org
-      ignores ``# nosec`` suppressions; using the Qt network stack
-      sidesteps the check entirely.
-    - Fix: restructure the Indonesia bounding-box check to drop the
-      multi-line ``and`` (W504 in v0.2.1 was the W503 fix's mirror;
-      using intermediate variables satisfies both rules at once).
-0.2.1 =
-    - Fix: validate URL scheme (http/https) before urlopen in OSRMClient
-      (Bandit B310 — blocked v0.2.0 from plugins.qgis.org approval)
-    - Fix: address Flake8 E226, E241, W503 reported by the plugin scanner
-      (route_renderer, main_dialog, smoke test)
+      Bandit B310 was blocking v0.2.0 on plugins.qgis.org;
+      plugins.qgis.org ignores ``# nosec`` suppressions, so the only
+      working fix is to not use urllib.request.urlopen at all.
+    - Fix: address Flake8 E226, E241, W503, W504 reported by the
+      scanner (route_renderer, main_dialog, smoke test). Bounding-box
+      checks use lat_ok / lon_ok intermediates so a single-line ``and``
+      satisfies both W503 and W504 simultaneously.
 0.2.0 =
     - Add OSRM as an alternative routing engine (global coverage; car/bike/foot)
     - Add Valhalla Isochrones dialog (reachability polygons)
