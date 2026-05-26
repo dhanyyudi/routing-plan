@@ -1,0 +1,47 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[106.8456, -6.2088], [106.8400, -6.2050]]
+      },
+      "properties": {
+        "duration": 120,
+        "distance": 1.4,
+        "cost": 120,
+        "edge_status": "permanent",
+        "edge_index": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[106.8400, -6.2050], [106.8350, -6.2000]]
+      },
+      "properties": {
+        "duration": 90,
+        "distance": 1.0,
+        "cost": 90,
+        "edge_status": "permanent",
+        "edge_index": 1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[106.8400, -6.2050], [106.8420, -6.2080]]
+      },
+      "properties": {
+        "duration": 50,
+        "distance": 0.5,
+        "cost": 50,
+        "edge_status": "reached",
+        "edge_index": 2
+      }
+    }
+  ]
+}

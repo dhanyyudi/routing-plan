@@ -1,0 +1,36 @@
+{
+  "code": "Ok",
+  "matchings": [
+    {
+      "distance": 5000,
+      "duration": 450,
+      "confidence": 0.92,
+      "legs": [
+        {
+          "distance": 5000,
+          "duration": 450,
+          "steps": [
+            {
+              "distance": 2500,
+              "duration": 225,
+              "geometry": "_cq`F~pseA?hAkCdE",
+              "name": "Main Street",
+              "maneuver": {"type": "depart", "modifier": "straight"}
+            },
+            {
+              "distance": 2500,
+              "duration": 225,
+              "geometry": "_cs`FhwseA?nFuHnI",
+              "name": "Park Ave",
+              "maneuver": {"type": "arrive", "modifier": "straight"}
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tracepoints": [
+    {"location": [13.38886, 52.517037], "name": "Start", "matchings_index": 0},
+    {"location": [13.428555, 52.523219], "name": "End", "matchings_index": 0}
+  ]
+}

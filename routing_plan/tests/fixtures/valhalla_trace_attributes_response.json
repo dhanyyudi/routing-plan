@@ -1,0 +1,60 @@
+{
+  "trip": {
+    "units": "kilometers",
+    "locations": [
+      {
+        "lat": -6.2088,
+        "lon": 106.8456,
+        "name": "Start",
+        "type": "break"
+      },
+      {
+        "lat": -6.1944,
+        "lon": 106.8225,
+        "name": "End",
+        "type": "break"
+      }
+    ],
+    "legs": [
+      {
+        "shape": "rp|wJimkwjEfV^EmI_IV}VjAqOlAuK~@iPxAe@As@IkLmEqFmCaCkAuBaAqEgBoFhA}KhC}GpAu@jDkC`JeA`Ee@tBuGbVwAfDmBnCwBbBaClAwCz@_CXkBDkEEcC[wR{CyQmCeDYoCG_CJmBb@gB~@yAvAsBhCkArBy@|Bc@pBYbCQbDUt}@?zNAzJC~RAbBY|pAE|EGpdBDfLdF~N~CfFxFbFv@\\\\bEfAtLVdXZvfBhBnZf@hB@z{@~@fYDteEbDvFFjDBfO[bHg@vG{@hQwBj@EdEUl@c@hAo@fCu@nCUpCHjCj@~At@`At@TPfArAnC@~@?~Cj@lB@hl@yA~EK`CEdZi@hCEf@AxFKfFQfTcAjG[EmAAk@WmJKyI~@wBE_BIyCCu@CoAOgFUgJeAa`@GuCUiEAs@GyBg@cVGsCMiEAYMoFCo@OwFUiIGiCMkFKyDIiCKmEKqDMsEAq@I{CQiGO}FGoBAu@MoEYiKM{ESoHQ}GQeHO_G[yLg@sQEyAUkJMkEEsB[sLIkC?AGwBMkFQgGWoJMkFi@kSEcAa@iPGmBMgFQeHo@qUAk@K{D_@}MGyCCu@IkDG_Bv@sECiHGiCpBOv@El_AiG|F_@vSuAfSqA|Jq@dJm@tF_@xAInAKbEi@hN_A~\\\\{Dfj@}L~KeCpCi@tBc@kAiDa@oAkBiGwE}WcC_T_@}Gq@gIoDH_Mj@",
+        "summary": {
+          "length": 5.0,
+          "time": 450
+        },
+        "maneuvers": [
+          {
+            "type": 1,
+            "instruction": "Drive north."
+          },
+          {
+            "type": 4,
+            "instruction": "You have arrived."
+          }
+        ]
+      }
+    ]
+  },
+  "edges": [
+    {
+      "begin_shape_index": 0,
+      "end_shape_index": 5,
+      "names": [
+        "Jalan Sudirman"
+      ],
+      "road_class": "primary",
+      "speed": 60,
+      "length": 2.5
+    },
+    {
+      "begin_shape_index": 5,
+      "end_shape_index": 10,
+      "names": [
+        "Jalan Thamrin"
+      ],
+      "road_class": "primary",
+      "speed": 50,
+      "length": 2.5
+    }
+  ]
+}

@@ -22,6 +22,98 @@ ID = {
     ),
     "out_of_coverage": "⚠️ Waypoint di luar coverage area. {detail}",
     "error_with_code": "❌ Error: {message} (code={code})",
+
+    # ── Engine selector ──
+    "engine_label": "Engine:",
+    "engine_valhalla": "Valhalla",
+    "engine_osrm": "OSRM",
+    "osrm_demo_warning_title": "OSRM Public Demo",
+    "osrm_demo_warning_body": (
+        "Anda menggunakan server demo publik OSRM dari project OSRM.\n\n"
+        "Server ini memiliki batasan rate dan hanya untuk penggunaan personal terbatas.\n"
+        "Untuk penggunaan produksi, silakan host instance OSRM sendiri.\n\n"
+        "Lihat: https://project-osrm.org/"
+    ),
+    "feature_unsupported": "{feature} tidak didukung oleh engine {engine}",
+
+    # ── Isochrones (F2) ──
+    "iso_title": "Isochrones",
+    "iso_origin": "Titik Awal",
+    "iso_contours_label": "Kontur",
+    "iso_metric_time": "Waktu",
+    "iso_metric_distance": "Jarak",
+    "iso_polygons": "Polygon",
+    "iso_denoise": "Denoise",
+    "iso_generalize": "Generalisasi (m)",
+    "iso_compute": "Hitung Isochrones",
+    "iso_pick_on_map": "Pilih dari peta",
+    "iso_pick_active": "Klik peta untuk memilih…",
+    "iso_pick_hint": "Klik di peta untuk menetapkan titik asal isochrone.",
+    "iso_pick_captured": "Titik asal: {lat}, {lon}",
+    "iso_layer_name": "Isochrones",
+
+    # ── OD Matrix (F3) ──
+    "matrix_title": "OD Matrix",
+    "matrix_sources": "Titik Asal",
+    "matrix_targets": "Titik Tujuan",
+    "matrix_unreachable": "Tidak terjangkau",
+    "matrix_export_csv": "Ekspor CSV",
+    "matrix_draw_lines": "Gambar garis penghubung",
+    "matrix_compute": "Hitung Matrix",
+    "matrix_loading": "Menghitung matrix…",
+    "matrix_no_sources": "Minimal satu titik asal diperlukan",
+    "matrix_no_targets": "Minimal satu titik tujuan diperlukan",
+    "matrix_delete_selected": "Hapus terpilih",
+    "matrix_no_selection": "Pilih baris terlebih dahulu untuk dihapus.",
+
+    # ── Map Matching (F4) ──
+    "match_title": "Map Matching",
+    "match_source_layer": "Dari layer QGIS",
+    "match_source_csv": "Dari file CSV",
+    "match_source_polyline": "Dari encoded polyline",
+    "match_shape_match": "Shape match",
+    "match_compute": "Cocokkan Trace",
+    "match_with_attributes": "Ambil atribut edge",
+    "match_confidence": "Confidence: {conf}%",
+    "match_loading": "Mencocokkan trace ke jalan…",
+    "match_attributes_layer": "Atribut Match",
+
+    # ── Expansion (F5) ──
+    "exp_title": "Expansion (Debug)",
+    "exp_action": "Aksi",
+    "exp_skip_opposites": "Skip opposites",
+    "exp_properties_label": "Properties",
+    "exp_compute": "Hitung Expansion",
+    "exp_loading": "Menghitung expansion…",
+    "exp_layer_name": "Expansion",
+
+    # ── Elevation (F6) ──
+    "elev_title": "Profil Elevasi",
+    "elev_source_route": "Rute terakhir",
+    "elev_source_layer": "Dari layer garis QGIS",
+    "elev_source_polyline": "Dari encoded polyline",
+    "elev_resample": "Resample jarak (m)",
+    "elev_compute": "Hitung Elevasi",
+    "elev_ascent": "Total tanjakan",
+    "elev_descent": "Total turunan",
+    "elev_export_csv": "Ekspor CSV",
+    "elev_loading": "Menghitung elevasi…",
+    "elev_layer_name": "Elevasi",
+
+    # ── Snap / Locate (F7) ──
+    "locate_title": "Snap to Road",
+    "locate_input_label": "Titik input",
+    "locate_pick_on_map": "Pilih dari peta",
+    "locate_pick_active": "Klik peta untuk memilih…",
+    "locate_pick_hint": "Klik di peta untuk menetapkan titik.",
+    "locate_pick_captured": "Titik: {lat}, {lon}",
+    "locate_count": "Jumlah hasil",
+    "locate_compute": "Lokasi",
+    "locate_no_results": "Tidak ada jalan terdekat",
+    "locate_loading": "Mencari jalan terdekat…",
+    "locate_layer_name": "Titik Tersnap",
+    "locate_input_layer": "Titik Input",
+
     "html_saved": "HTML tersimpan: {path}",
     "geojson_saved": "GeoJSON tersimpan: {path}",
     "kml_saved": "KML tersimpan: {path}",
@@ -76,6 +168,97 @@ EN = {
     ),
     "out_of_coverage": "⚠️ Waypoint outside coverage area. {detail}",
     "error_with_code": "❌ Error: {message} (code={code})",
+    # ── Engine selector ──
+    "engine_label": "Engine:",
+    "engine_valhalla": "Valhalla",
+    "engine_osrm": "OSRM",
+    "osrm_demo_warning_title": "OSRM Public Demo",
+    "osrm_demo_warning_body": (
+        "You are using the public OSRM demo server provided by the OSRM project.\n\n"
+        "This server has rate limits and is intended for limited personal use only.\n"
+        "For production use, please host your own OSRM instance.\n\n"
+        "See: https://project-osrm.org/"
+    ),
+    "feature_unsupported": "{feature} is not supported by the {engine} engine",
+
+    # ── Isochrones (F2) ──
+    "iso_title": "Isochrones",
+    "iso_origin": "Origin",
+    "iso_contours_label": "Contours",
+    "iso_metric_time": "Time",
+    "iso_metric_distance": "Distance",
+    "iso_polygons": "Polygons",
+    "iso_denoise": "Denoise",
+    "iso_generalize": "Generalize (m)",
+    "iso_compute": "Compute Isochrones",
+    "iso_pick_on_map": "Pick on map",
+    "iso_pick_active": "Click the map to pick…",
+    "iso_pick_hint": "Click the map to set the isochrone origin.",
+    "iso_pick_captured": "Origin captured: {lat}, {lon}",
+    "iso_layer_name": "Isochrones",
+
+    # ── OD Matrix (F3) ──
+    "matrix_title": "OD Matrix",
+    "matrix_sources": "Origins",
+    "matrix_targets": "Destinations",
+    "matrix_unreachable": "Unreachable",
+    "matrix_export_csv": "Export CSV",
+    "matrix_draw_lines": "Draw connecting lines",
+    "matrix_compute": "Compute Matrix",
+    "matrix_loading": "Computing matrix…",
+    "matrix_no_sources": "At least one origin required",
+    "matrix_no_targets": "At least one destination required",
+    "matrix_delete_selected": "Delete selected",
+    "matrix_no_selection": "Select one or more rows first to delete.",
+
+    # ── Map Matching (F4) ──
+    "match_title": "Map Matching",
+    "match_source_layer": "From QGIS layer",
+    "match_source_csv": "From CSV file",
+    "match_source_polyline": "From encoded polyline",
+    "match_shape_match": "Shape match",
+    "match_compute": "Match Trace",
+    "match_with_attributes": "Fetch edge attributes",
+    "match_confidence": "Confidence: {conf}%",
+    "match_loading": "Matching trace to roads…",
+    "match_attributes_layer": "Match Attributes",
+
+    # ── Expansion (F5) ──
+    "exp_title": "Expansion (Debug)",
+    "exp_action": "Action",
+    "exp_skip_opposites": "Skip opposites",
+    "exp_properties_label": "Properties",
+    "exp_compute": "Compute Expansion",
+    "exp_loading": "Computing expansion…",
+    "exp_layer_name": "Expansion",
+
+    # ── Elevation (F6) ──
+    "elev_title": "Elevation Profile",
+    "elev_source_route": "Last computed route",
+    "elev_source_layer": "From QGIS line layer",
+    "elev_source_polyline": "From encoded polyline",
+    "elev_resample": "Resample distance (m)",
+    "elev_compute": "Compute Elevation",
+    "elev_ascent": "Total ascent",
+    "elev_descent": "Total descent",
+    "elev_export_csv": "Export CSV",
+    "elev_loading": "Computing elevation…",
+    "elev_layer_name": "Elevation",
+
+    # ── Snap / Locate (F7) ──
+    "locate_title": "Snap to Road",
+    "locate_input_label": "Input point",
+    "locate_pick_on_map": "Pick on map",
+    "locate_pick_active": "Click the map to pick…",
+    "locate_pick_hint": "Click the map to set the point.",
+    "locate_pick_captured": "Point captured: {lat}, {lon}",
+    "locate_count": "Number of results",
+    "locate_compute": "Locate",
+    "locate_no_results": "No nearby road found",
+    "locate_loading": "Locating nearest road…",
+    "locate_layer_name": "Snapped Points",
+    "locate_input_layer": "Input Point",
+
     "html_saved": "HTML saved: {path}",
     "geojson_saved": "GeoJSON saved: {path}",
     "kml_saved": "KML saved: {path}",

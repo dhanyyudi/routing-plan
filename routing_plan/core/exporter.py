@@ -1,6 +1,7 @@
 import json
 import os
 from string import Template
+from typing import Any
 
 from .maneuver_formatter import (
     format_distance,
@@ -319,3 +320,53 @@ L.geoJSON(geojson, {
 </script>
 </body>
 </html>"""
+
+
+def export_matrix_csv(
+    response: dict[str, Any],
+    sources: list[Any],
+    targets: list[Any],
+    output_path: str,
+) -> None:
+    """Export a matrix response to CSV.
+
+    Writes columns: from_index, to_index, from_name, to_name,
+    distance_km, time_sec, time_min.
+    """
+    import csv
+    with open(output_path, "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["from_index", "to_index", "from_name", "to_name",
+                    "distance_km", "time_sec", "time_min"])
+        pairs = response.get("sources_to_targets", [])
+        src_names = [getattr(s, "name", None) or f"Src{i}" for i, s in enumerate(sources)]
+        tgt_names = [getattr(t, "name", None) or f"Tgt{j}" for j, t in enumerate(targets)]
+        for pair in pairs:
+            fi = pair.get("from_index", 0)
+            tj = pair.get("to_index", 0)
+            time_sec = pair.get("time", 0)
+            dist = pair.get("distance")
+            time_min = round(time_sec / 60.0, 1) if time_sec else 0
+            w.writerow([
+                fi, tj,
+                src_names[fi] if fi < len(src_names) else "",
+                tgt_names[tj] if tj < len(tgt_names) else "",
+                round(dist, 3) if dist is not None else "",
+                time_sec, time_min,
+            ])
+
+
+def export_elevation_csv(response: dict[str, Any], output_path: str) -> None:
+    """Export an elevation profile response to CSV.
+
+    Writes columns: distance_m, elevation_m.
+    """
+    import csv
+    heights = response.get("range_height", [])
+    with open(output_path, "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["distance_m", "elevation_m"])
+        for sample in heights:
+            d = sample[0] if len(sample) > 0 else 0
+            e = sample[1] if len(sample) > 1 else 0
+            w.writerow([round(d, 1), round(e, 1)])

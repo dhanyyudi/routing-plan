@@ -297,3 +297,36 @@ class TestWaypointOrder:
         reordered = [wps[2], wps[0], wps[1]]
         lats = [wp.lat for wp in reordered]
         assert lats == [-8.3, -6.1, -7.2], "Reordered lats harus sesuai urutan tabel"
+
+
+# ── OSRM smoke test (uses mock fixture, no live network) ──────────
+
+class TestOSRMSmoke:
+    """Verify the OSRM route path produces a renderable response."""
+
+    def test_osrm_route_renders_via_normalizer(self, monkeypatch):
+        import json
+        from pathlib import Path
+        from routing_plan.core.osrm_client import OSRMClient
+        from routing_plan.core.waypoint_loader import Waypoint
+
+        fixture = Path(__file__).parent / "fixtures" / "osrm_route_response.json"
+        with open(fixture) as f:
+            fixture_data = json.load(f)
+
+        def fake_get(self, url):
+            return fixture_data
+
+        monkeypatch.setattr(OSRMClient, "_do_get", fake_get)
+        client = OSRMClient(endpoint="http://mock")
+        wps = [
+            Waypoint(lat=52.517037, lon=13.38886, name="Start"),
+            Waypoint(lat=52.529407, lon=13.397634, name="Mid"),
+            Waypoint(lat=52.523219, lon=13.428555, name="End"),
+        ]
+        result = client.route(wps)
+        assert "trip" in result
+        assert result["trip"]["units"] == "kilometers"
+        assert len(result["trip"]["legs"]) == 2
+        # Verify maneuvers exist on first leg
+        assert len(result["trip"]["legs"][0]["maneuvers"]) > 0

@@ -18,6 +18,11 @@ COSTING_OPTIONS = [
     ("pedestrian", "Pedestrian"),
 ]
 
+ENGINE_OPTIONS = [
+    ("valhalla", "Valhalla"),
+    ("osrm", "OSRM"),
+]
+
 LANGUAGE_OPTIONS = [
     ("en", "English"),
     ("id", "Bahasa Indonesia"),
@@ -42,9 +47,18 @@ class SettingsDialog(QDialog):
 
         form = QFormLayout()
 
+        self.engine_combo = QComboBox()
+        for val, label in ENGINE_OPTIONS:
+            self.engine_combo.addItem(label, val)
+        form.addRow(tr("engine_label"), self.engine_combo)
+
         self.endpoint_edit = QLineEdit()
         self.endpoint_edit.setPlaceholderText("https://valhalla.dhanypedia.it.com")
         form.addRow(tr("endpoint_url"), self.endpoint_edit)
+
+        self.osrm_endpoint_edit = QLineEdit()
+        self.osrm_endpoint_edit.setPlaceholderText("https://router.project-osrm.org")
+        form.addRow("OSRM Endpoint URL:", self.osrm_endpoint_edit)
 
         self.costing_combo = QComboBox()
         for val, label in COSTING_OPTIONS:
@@ -92,7 +106,13 @@ class SettingsDialog(QDialog):
 
     def _load_settings(self):
         s = PluginSettings
-        self.endpoint_edit.setText(s.get_endpoint())
+        engine = s.get_engine()
+        idx = self.engine_combo.findData(engine)
+        if idx >= 0:
+            self.engine_combo.setCurrentIndex(idx)
+
+        self.endpoint_edit.setText(s.get_endpoint_for("valhalla"))
+        self.osrm_endpoint_edit.setText(s.get_endpoint_for("osrm"))
 
         idx = self.costing_combo.findData(s.get_default_costing())
         if idx >= 0:
@@ -111,7 +131,9 @@ class SettingsDialog(QDialog):
 
     def _accept(self):
         s = PluginSettings
-        s.set_endpoint(self.endpoint_edit.text().strip())
+        s.set_engine(self.engine_combo.currentData())
+        s.set_endpoint_for("valhalla", self.endpoint_edit.text().strip())
+        s.set_endpoint_for("osrm", self.osrm_endpoint_edit.text().strip())
         s.set_default_costing(self.costing_combo.currentData())
         s.set_language(self.language_combo.currentData())
         s.set_units(self.units_combo.currentData())
@@ -122,3 +144,4 @@ class SettingsDialog(QDialog):
     def _reset(self):
         PluginSettings.reset_all()
         self._load_settings()
+        self.engine_combo.setCurrentIndex(0)

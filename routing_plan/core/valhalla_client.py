@@ -87,6 +87,178 @@ class ValhallaClient:
         )
         return self._do_request("/optimized_route", payload)
 
+    def isochrone(self, location, costing="auto", contours=None,
+                  polygons=True, denoise=None, generalize=None,
+                  show_locations=False, date_time=None,
+                  costing_options=None):
+        """Call Valhalla ``/isochrone`` and return the GeoJSON response.
+
+        ``location`` is a dict with ``{"lat": ..., "lon": ...}``.
+        ``contours`` is a list of ``{"time": N, "color": "RRGGBB"}``
+        or ``{"distance": N, "color": "RRGGBB"}``.
+        """
+        if costing not in VALID_COSTING_MODES:
+            raise ValueError(
+                f"Invalid costing mode '{costing}'. "
+                f"Valid: {', '.join(sorted(VALID_COSTING_MODES))}"
+            )
+        payload = {
+            "locations": [{"lat": location["lat"], "lon": location["lon"]}],
+            "costing": costing,
+            "contours": contours or [{"time": 15}],
+            "polygons": polygons,
+            "id": "routing-plan-isochrone",
+        }
+        if denoise is not None:
+            payload["denoise"] = denoise
+        if generalize is not None and generalize > 0:
+            payload["generalize"] = generalize
+        if show_locations:
+            payload["show_locations"] = True
+        if date_time:
+            payload["date_time"] = date_time
+        if costing_options:
+            payload["costing_options"] = costing_options
+        return self._do_request("/isochrone", payload)
+
+    def matrix(self, sources, targets, costing="auto", date_time=None,
+               costing_options=None):
+        """Call Valhalla ``/sources_to_targets``."""
+        if costing not in VALID_COSTING_MODES:
+            raise ValueError(
+                f"Invalid costing mode '{costing}'. "
+                f"Valid: {', '.join(sorted(VALID_COSTING_MODES))}"
+            )
+        src_locs = [{"lat": s.lat, "lon": s.lon} for s in sources]
+        tgt_locs = [{"lat": t.lat, "lon": t.lon} for t in targets]
+        payload = {
+            "sources": src_locs,
+            "targets": tgt_locs,
+            "costing": costing,
+            "id": "routing-plan-matrix",
+        }
+        if date_time:
+            payload["date_time"] = date_time
+        if costing_options:
+            payload["costing_options"] = costing_options
+        return self._do_request("/sources_to_targets", payload)
+
+    def trace_route(self, shape, costing="auto", shape_match="walk_or_snap",
+                    costing_options=None, filters=None):
+        """Call Valhalla ``/trace_route``."""
+        if costing not in VALID_COSTING_MODES:
+            raise ValueError(
+                f"Invalid costing mode '{costing}'. "
+                f"Valid: {', '.join(sorted(VALID_COSTING_MODES))}"
+            )
+        payload = {
+            "shape": shape,
+            "costing": costing,
+            "shape_match": shape_match,
+            "directions_options": {"units": "kilometers"},
+            "id": "routing-plan-match",
+        }
+        if costing_options:
+            payload["costing_options"] = costing_options
+        if filters:
+            payload["filters"] = filters
+        return self._do_request("/trace_route", payload)
+
+    def trace_attributes(self, shape, costing="auto", shape_match="walk_or_snap",
+                         filters=None, costing_options=None):
+        """Call Valhalla ``/trace_attributes``."""
+        if costing not in VALID_COSTING_MODES:
+            raise ValueError(
+                f"Invalid costing mode '{costing}'. "
+                f"Valid: {', '.join(sorted(VALID_COSTING_MODES))}"
+            )
+        payload = {
+            "shape": shape,
+            "costing": costing,
+            "shape_match": shape_match,
+            "id": "routing-plan-match-attr",
+        }
+        if filters:
+            payload["filters"] = filters
+        else:
+            payload["filters"] = {
+                "attributes": [
+                    "edge.names", "edge.road_class", "edge.speed", "edge.length",
+                ],
+                "action": "include",
+            }
+        if costing_options:
+            payload["costing_options"] = costing_options
+        return self._do_request("/trace_attributes", payload)
+
+    def expansion(self, action="route", locations=None, sources=None, targets=None,
+                  costing="auto", contours=None, skip_opposites=True, dedupe=True,
+                  expansion_properties=None, costing_options=None):
+        """Call Valhalla ``/expansion``."""
+        if costing not in VALID_COSTING_MODES:
+            raise ValueError(
+                f"Invalid costing mode '{costing}'. "
+                f"Valid: {', '.join(sorted(VALID_COSTING_MODES))}"
+            )
+        payload = {
+            "action": action,
+            "costing": costing,
+            "skip_opposites": skip_opposites,
+            "dedupe": dedupe,
+            "id": "routing-plan-expansion",
+        }
+        if expansion_properties:
+            payload["expansion_properties"] = expansion_properties
+        else:
+            payload["expansion_properties"] = ["duration", "distance", "cost", "edge_status"]
+        if locations:
+            payload["locations"] = [{"lat": w.lat, "lon": w.lon} for w in locations]
+        if sources:
+            payload["sources"] = [{"lat": s.lat, "lon": s.lon} for s in sources]
+        if targets:
+            payload["targets"] = [{"lat": t.lat, "lon": t.lon} for t in targets]
+        if contours:
+            payload["contours"] = contours
+        if costing_options:
+            payload["costing_options"] = costing_options
+        return self._do_request("/expansion", payload)
+
+    def height(self, shape=None, encoded_polyline=None, shape_format="polyline6",
+               range=True, height_precision=1, resample_distance=None):
+        """Call Valhalla ``/height``."""
+        payload = {
+            "range": range,
+            "height_precision": height_precision,
+            "id": "routing-plan-elevation",
+        }
+        if encoded_polyline:
+            payload["encoded_polyline"] = encoded_polyline
+            payload["shape_format"] = shape_format
+        elif shape:
+            payload["shape"] = shape
+            payload["shape_format"] = shape_format
+        if resample_distance:
+            payload["resample_distance"] = resample_distance
+        return self._do_request("/height", payload)
+
+    def locate(self, locations, costing="auto", verbose=True):
+        """Call Valhalla ``/locate``.
+
+        ``locations`` is a list of ``{"lat": ..., "lon": ...}`` dicts.
+        """
+        if costing not in VALID_COSTING_MODES:
+            raise ValueError(
+                f"Invalid costing mode '{costing}'. "
+                f"Valid: {', '.join(sorted(VALID_COSTING_MODES))}"
+            )
+        payload = {
+            "locations": [{"lat": loc["lat"], "lon": loc["lon"]} for loc in locations],
+            "costing": costing,
+            "verbose": verbose,
+            "id": "routing-plan-locate",
+        }
+        return self._do_request("/locate", payload)
+
     def _build_payload(self, waypoints, costing, costing_options,
                        directions_options, alternates, date_time,
                        exclude_polygons):
@@ -129,7 +301,7 @@ class ValhallaClient:
         url = QUrl(self.endpoint + path)
         request = QNetworkRequest(url)
         request.setHeader(QNetworkRequest.KnownHeaders.ContentTypeHeader, "application/json")
-        request.setRawHeader(b"User-Agent", b"RoutingPlanQGIS/0.1.0")
+        request.setRawHeader(b"User-Agent", b"RoutingPlanQGIS/0.2.0")
         body = QByteArray(json.dumps(payload).encode("utf-8"))
 
         blocking = QgsBlockingNetworkRequest()

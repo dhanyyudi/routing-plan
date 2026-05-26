@@ -2,18 +2,51 @@ from .valhalla_client import ValhallaClient
 from .route_renderer import build_route_layer, build_maneuvers_layer, build_stops_layer
 
 
+def _build_client(engine=None):
+    """Factory: return a client for the given engine, or for the
+    current ``PluginSettings.get_engine()`` value if ``engine`` is
+    ``None``.
+
+    Pass an explicit ``engine`` from feature dialogs whose engine
+    combo is locked (Isochrones, Expansion, Elevation) — that way
+    they always get the right client regardless of what other
+    dialogs have done with the global setting.
+    """
+    from .settings import PluginSettings
+    eng = engine if engine is not None else PluginSettings.get_engine()
+    if eng == "osrm":
+        from .osrm_client import OSRMClient
+        endpoint = PluginSettings.get_endpoint_for("osrm")
+        timeout = PluginSettings.get_timeout()
+        return OSRMClient(endpoint=endpoint, timeout=timeout)
+    else:
+        endpoint = PluginSettings.get_endpoint_for("valhalla")
+        timeout = PluginSettings.get_timeout()
+        return ValhallaClient(endpoint=endpoint, timeout=timeout)
+
+
+def client_for(engine):
+    """Public helper for feature dialogs: build a fresh client for
+    the *specified* engine, independent of the global setting and
+    without mutating ``ValhallaNavigatorCore.client``."""
+    return _build_client(engine)
+
+
 class ValhallaNavigatorCore:
     def __init__(self, iface):
         self.iface = iface
         from .settings import PluginSettings
-        endpoint = PluginSettings.get_endpoint()
-        self.client = ValhallaClient(endpoint=endpoint)
         self._settings = PluginSettings
+        self.client = _build_client()
         self.dock = None
         self._last_response = None
         self._active_task = None
         self._progress_item = None
         self._progress_bar = None
+
+    def _rebuild_client(self):
+        """Re-create the client after an engine or endpoint change."""
+        self.client = _build_client()
 
     def show_main_dialog(self):
         from ..ui.main_dialog import MainDialog
@@ -25,8 +58,7 @@ class ValhallaNavigatorCore:
         from ..ui.settings_dialog import SettingsDialog
         dlg = SettingsDialog(self.iface.mainWindow())
         if dlg.exec():
-            endpoint = self._settings.get_endpoint()
-            self.client = ValhallaClient(endpoint=endpoint)
+            self._rebuild_client()
             self.iface.messageBar().pushSuccess("Routing Plan", tr("settings_saved"))
 
     def _demo_flow(self):

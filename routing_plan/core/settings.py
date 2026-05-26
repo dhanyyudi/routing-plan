@@ -1,9 +1,13 @@
 PREFIX = "routing_plan/"
-DEFAULT_ENDPOINT = "https://valhalla.dhanypedia.it.com"
+DEFAULT_ENDPOINT_VALHALLA = "https://valhalla.dhanypedia.it.com"
+DEFAULT_ENDPOINT_OSRM = "https://router.project-osrm.org"
+DEFAULT_ENGINE = "valhalla"
 DEFAULT_COSTING = "auto"
 DEFAULT_LANGUAGE = "en"
 DEFAULT_UNITS = "kilometers"
 TIMEOUT_SECONDS = 60
+# Backwards-compat alias
+DEFAULT_ENDPOINT = DEFAULT_ENDPOINT_VALHALLA
 
 
 def _s(key):
@@ -17,12 +21,41 @@ def _settings():
 
 class PluginSettings:
     @staticmethod
+    def get_engine():
+        return _settings().value(_s("engine"), DEFAULT_ENGINE)
+
+    @staticmethod
+    def set_engine(name):
+        _settings().setValue(_s("engine"), name)
+
+    @staticmethod
     def get_endpoint():
-        return _settings().value(_s("endpoint"), DEFAULT_ENDPOINT)
+        """Return the active engine's endpoint for backwards compat."""
+        eng = PluginSettings.get_engine()
+        return PluginSettings.get_endpoint_for(eng)
 
     @staticmethod
     def set_endpoint(url):
-        _settings().setValue(_s("endpoint"), url.rstrip("/"))
+        """Set the active engine's endpoint for backwards compat."""
+        eng = PluginSettings.get_engine()
+        PluginSettings.set_endpoint_for(eng, url)
+
+    @staticmethod
+    def get_endpoint_for(engine):
+        default = DEFAULT_ENDPOINT_VALHALLA if engine == "valhalla" else DEFAULT_ENDPOINT_OSRM
+        return _settings().value(_s(f"endpoint_{engine}"), default)
+
+    @staticmethod
+    def set_endpoint_for(engine, url):
+        _settings().setValue(_s(f"endpoint_{engine}"), url.rstrip("/"))
+
+    @staticmethod
+    def get_osrm_warning_shown():
+        return _settings().value(_s("osrm_warning_shown"), False, type=bool)
+
+    @staticmethod
+    def set_osrm_warning_shown(val):
+        _settings().setValue(_s("osrm_warning_shown"), bool(val))
 
     @staticmethod
     def get_default_costing():
@@ -67,7 +100,9 @@ class PluginSettings:
     @staticmethod
     def to_dict():
         return {
-            "endpoint": PluginSettings.get_endpoint(),
+            "engine": PluginSettings.get_engine(),
+            "endpoint_valhalla": PluginSettings.get_endpoint_for("valhalla"),
+            "endpoint_osrm": PluginSettings.get_endpoint_for("osrm"),
             "default_costing": PluginSettings.get_default_costing(),
             "language": PluginSettings.get_language(),
             "units": PluginSettings.get_units(),
@@ -77,5 +112,6 @@ class PluginSettings:
     @staticmethod
     def reset_all():
         s = _settings()
-        for key in ["endpoint", "default_costing", "language", "units", "timeout"]:
+        for key in ["engine", "endpoint_valhalla", "endpoint_osrm",
+                    "default_costing", "language", "units", "timeout"]:
             s.remove(_s(key))

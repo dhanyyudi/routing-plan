@@ -7,44 +7,8 @@ Bug history:
 """
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock
-
-import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
-
-@pytest.fixture(scope="module", autouse=True)
-def mock_qgis_modules():
-    """Mock qgis so plain pytest can import plugin modules."""
-    old_modules = {}
-    for mod_name in ["qgis", "qgis.core", "qgis.gui", "qgis.PyQt",
-                     "qgis.PyQt.QtCore", "qgis.PyQt.QtGui",
-                     "qgis.PyQt.QtWidgets", "qgis.PyQt.QtNetwork"]:
-        old_modules[mod_name] = sys.modules.get(mod_name)
-
-    qgis = MagicMock()
-    qgis.core = MagicMock()
-    qgis.gui = MagicMock()
-    qgis.PyQt = MagicMock()
-    qgis.PyQt.QtCore = MagicMock()
-    qgis.PyQt.QtGui = MagicMock()
-    qgis.PyQt.QtWidgets = MagicMock()
-    qgis.PyQt.QtNetwork = MagicMock()
-    sys.modules["qgis"] = qgis
-    sys.modules["qgis.core"] = qgis.core
-    sys.modules["qgis.gui"] = qgis.gui
-    sys.modules["qgis.PyQt"] = qgis.PyQt
-    sys.modules["qgis.PyQt.QtCore"] = qgis.PyQt.QtCore
-    sys.modules["qgis.PyQt.QtGui"] = qgis.PyQt.QtGui
-    sys.modules["qgis.PyQt.QtWidgets"] = qgis.PyQt.QtWidgets
-    sys.modules["qgis.PyQt.QtNetwork"] = qgis.PyQt.QtNetwork
-    yield
-    for mod_name, old_mod in old_modules.items():
-        if old_mod is not None:
-            sys.modules[mod_name] = old_mod
-        elif mod_name in sys.modules:
-            del sys.modules[mod_name]
 
 
 def test_import_plugin():
@@ -83,6 +47,47 @@ def test_import_settings():
     import routing_plan.core.settings  # noqa: F401
 
 
+def test_import_engine():
+    import routing_plan.core.engine  # noqa: F401
+
+
+def test_import_maneuver_mapper():
+    import routing_plan.core.maneuver_mapper  # noqa: F401
+
+
+def test_import_osrm_client():
+    """Smoke: OSRMClient import succeeds without QGIS."""
+    import routing_plan.core.osrm_client  # noqa: F401
+
+
+def test_import_osrm_normalize():
+    import routing_plan.core.osrm_normalize  # noqa: F401
+
+
+def test_import_isochrone_renderer():
+    import routing_plan.core.isochrone_renderer  # noqa: F401
+
+
+def test_import_matrix_renderer():
+    import routing_plan.core.matrix_renderer  # noqa: F401
+
+
+def test_import_match_renderer():
+    import routing_plan.core.match_renderer  # noqa: F401
+
+
+def test_import_expansion_renderer():
+    import routing_plan.core.expansion_renderer  # noqa: F401
+
+
+def test_import_elevation_renderer():
+    import routing_plan.core.elevation_renderer  # noqa: F401
+
+
+def test_import_locate_renderer():
+    import routing_plan.core.locate_renderer  # noqa: F401
+
+
 def test_import_main_dialog():
     import routing_plan.ui.main_dialog  # noqa: F401
 
@@ -94,6 +99,30 @@ def test_import_directions_dock():
 
 def test_import_settings_dialog():
     import routing_plan.ui.settings_dialog  # noqa: F401
+
+
+def test_import_isochrone_dialog():
+    import routing_plan.ui.isochrone_dialog  # noqa: F401
+
+
+def test_import_matrix_dialog():
+    import routing_plan.ui.matrix_dialog  # noqa: F401
+
+
+def test_import_match_dialog():
+    import routing_plan.ui.match_dialog  # noqa: F401
+
+
+def test_import_expansion_dialog():
+    import routing_plan.ui.expansion_dialog  # noqa: F401
+
+
+def test_import_elevation_dialog():
+    import routing_plan.ui.elevation_dialog  # noqa: F401
+
+
+def test_import_locate_dialog():
+    import routing_plan.ui.locate_dialog  # noqa: F401
 
 
 def test_import_i18n():

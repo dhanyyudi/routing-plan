@@ -8,16 +8,11 @@ from qgis.PyQt.QtWidgets import (
 from qgis.PyQt.QtCore import Qt
 from qgis.core import QgsProject, Qgis
 
-COSTING_MODES = [
-    ("auto", "Auto"),
-    ("truck", "Truck"),
-    ("bus", "Bus"),
-    ("taxi", "Taxi"),
-    ("motor_scooter", "Motor Scooter"),
-    ("motorcycle", "Motorcycle"),
-    ("bicycle", "Bicycle"),
-    ("pedestrian", "Pedestrian"),
-]
+from ..core.engine import VALHALLA_COSTINGS, costings_for
+from ..core.settings import PluginSettings
+from ..i18n import tr
+
+COSTING_MODES = list(VALHALLA_COSTINGS)
 
 
 class MainDialog(QDialog):
@@ -28,24 +23,36 @@ class MainDialog(QDialog):
         self.waypoints = []
 
         self.setWindowTitle("Routing Plan")
-        self.setMinimumSize(640, 520)
+        self.setMinimumSize(660, 540)
         self._build_ui()
         self._connect_signals()
 
     def _build_ui(self):
         layout = QVBoxLayout(self)
 
+        # Engine selector row
+        engine_row = QHBoxLayout()
+        engine_row.addWidget(QLabel(tr("engine_label")))
+        self.engine_combo = QComboBox()
+        self.engine_combo.addItem(tr("engine_valhalla"), "valhalla")
+        self.engine_combo.addItem(tr("engine_osrm"), "osrm")
+        engine = PluginSettings.get_engine()
+        idx = self.engine_combo.findData(engine)
+        if idx >= 0:
+            self.engine_combo.setCurrentIndex(idx)
+        engine_row.addWidget(self.engine_combo)
+        engine_row.addStretch()
+        layout.addLayout(engine_row)
+
         # Banner
-        banner = QLabel(
-            "⚠️ Coverage area: Indonesia. "
-            "Waypoint coordinates will be sent to the Valhalla server for routing."
-        )
-        banner.setStyleSheet(
+        self._banner_label = QLabel()
+        self._banner_label.setStyleSheet(
             "background: #fff3cd; color: #856404; padding: 8px 12px; "
             "border: 1px solid #ffc107; border-radius: 4px; font-size: 12px;"
         )
-        banner.setWordWrap(True)
-        layout.addWidget(banner)
+        self._banner_label.setWordWrap(True)
+        layout.addWidget(self._banner_label)
+        self._update_banner(PluginSettings.get_engine())
 
         # Tabs
         self.tabs = QTabWidget()
@@ -284,6 +291,7 @@ class MainDialog(QDialog):
 
         self.costing_combo.currentIndexChanged.connect(self._on_costing_changed)
         self._on_costing_changed(0)
+        self.engine_combo.currentIndexChanged.connect(self._on_engine_changed)
 
         # Avoid / Restrictions
         avoid_group = QGroupBox("Avoid")
@@ -315,6 +323,29 @@ class MainDialog(QDialog):
         self._bike_widget.setVisible(mode == "bicycle")
         self._ped_widget.setVisible(mode == "pedestrian")
         self._all_vehicle_widget.setVisible(mode not in ("bicycle", "pedestrian"))
+
+    def _on_engine_changed(self, index):
+        """Repopulate costing combo when engine changes."""
+        engine = self.engine_combo.currentData() or "valhalla"
+        PluginSettings.set_engine(engine)
+        self.core._rebuild_client()
+
+        # Repopulate costing combo
+        self.costing_combo.blockSignals(True)
+        self.costing_combo.clear()
+        profiles = costings_for(engine)
+        for val, label in profiles:
+            self.costing_combo.addItem(label, val)
+        self.costing_combo.blockSignals(False)
+
+        # OSRM first-time warning
+        if engine == "osrm" and not PluginSettings.get_osrm_warning_shown():
+            QMessageBox.information(
+                self, tr("osrm_demo_warning_title"), tr("osrm_demo_warning_body"),
+            )
+            PluginSettings.set_osrm_warning_shown(True)
+
+        self._update_banner(engine)
 
     def _on_date_type_changed(self, index):
         data = self.date_type_combo.currentData()
@@ -437,6 +468,19 @@ class MainDialog(QDialog):
         self.move_up_btn.clicked.connect(lambda: self._move_waypoint(-1))
         self.move_down_btn.clicked.connect(lambda: self._move_waypoint(+1))
         self.waypoint_table.itemSelectionChanged.connect(self._update_move_buttons_state)
+
+    def _update_banner(self, engine):
+        """Update the coverage banner based on engine."""
+        if engine == "osrm":
+            self._banner_label.setText(
+                "OSRM provides global coverage (car/bike/foot). "
+                "Waypoint coordinates will be sent to the OSRM server for routing."
+            )
+        else:
+            self._banner_label.setText(
+                "Coverage area: Indonesia. "
+                "Waypoint coordinates will be sent to the Valhalla server for routing."
+            )
 
     def _load_file(self, file_filter):
         path, _ = QFileDialog.getOpenFileName(
@@ -636,27 +680,30 @@ class MainDialog(QDialog):
             )
             return
 
-        # Bbox Indonesia pre-flight validation
-        outside = [
-            (i + 1, wp.name or f"WP {i + 1}")
-            for i, wp in enumerate(waypoints)
-            if not self._is_in_indonesia(wp)
-        ]
-        if outside:
-            listing = "\n".join(f"  #{idx}: {name}" for idx, name in outside[:10])
-            if len(outside) > 10:
-                listing += f"\n  ... dan {len(outside) - 10} lainnya"
-            reply = QMessageBox.question(
-                self, "Waypoint Outside Indonesia",
-                f"The following waypoints are outside Indonesia:\n\n{listing}\n\n"
-                f"Current Valhalla coverage is Indonesia only. Continue?",
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-                QMessageBox.StandardButton.No,
-            )
-            if reply != QMessageBox.StandardButton.Yes:
-                self.tabs.setCurrentIndex(0)
-                self.waypoint_table.selectRow(outside[0][0] - 1)
-                return
+        engine = self.engine_combo.currentData() or "valhalla"
+
+        # Bbox Indonesia pre-flight validation (Valhalla only)
+        if engine == "valhalla":
+            outside = [
+                (i + 1, wp.name or f"WP {i + 1}")
+                for i, wp in enumerate(waypoints)
+                if not self._is_in_indonesia(wp)
+            ]
+            if outside:
+                listing = "\n".join(f"  #{idx}: {name}" for idx, name in outside[:10])
+                if len(outside) > 10:
+                    listing += f"\n  ... dan {len(outside) - 10} lainnya"
+                reply = QMessageBox.question(
+                    self, "Waypoint Outside Indonesia",
+                    f"The following waypoints are outside Indonesia:\n\n{listing}\n\n"
+                    f"Current Valhalla coverage is Indonesia only. Continue?",
+                    QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                    QMessageBox.StandardButton.No,
+                )
+                if reply != QMessageBox.StandardButton.Yes:
+                    self.tabs.setCurrentIndex(0)
+                    self.waypoint_table.selectRow(outside[0][0] - 1)
+                    return
 
         # Reorder by Start/End selection
         start_idx = self.start_combo.currentData() or 0

@@ -1,0 +1,12 @@
+{
+  "code": "Ok",
+  "waypoints": [
+    {
+      "name": "Jalan Sudirman",
+      "location": [106.8230, -6.2254],
+      "distance": 12.5,
+      "hint": "abc123",
+      "nodes": [123456, 123457]
+    }
+  ]
+}

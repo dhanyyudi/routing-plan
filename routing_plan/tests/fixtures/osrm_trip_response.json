@@ -1,0 +1,57 @@
+{
+  "code": "Ok",
+  "trips": [
+    {
+      "distance": 5000,
+      "duration": 600,
+      "legs": [
+        {
+          "distance": 2500,
+          "duration": 300,
+          "steps": [
+            {
+              "distance": 1200,
+              "duration": 150,
+              "geometry": "_cq`F~pseA?hAkCdE",
+              "name": "Main Street",
+              "maneuver": {
+                "type": "depart",
+                "modifier": "straight"
+              }
+            },
+            {
+              "distance": 1300,
+              "duration": 150,
+              "geometry": "_cr`FzuseA?jCyE`G",
+              "name": "Broadway",
+              "maneuver": {
+                "type": "turn",
+                "modifier": "right"
+              }
+            }
+          ]
+        },
+        {
+          "distance": 2500,
+          "duration": 300,
+          "steps": [
+            {
+              "distance": 2500,
+              "duration": 300,
+              "geometry": "_cs`FhwseA?nFuHnI",
+              "name": "Park Ave",
+              "maneuver": {
+                "type": "arrive",
+                "modifier": "straight"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "waypoints": [
+    {"name": "Start", "location": [13.38886, 52.517037]},
+    {"name": "End", "location": [13.428555, 52.523219]}
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "input_lat": -6.2088,
+      "input_lon": 106.8456,
+      "lat": -6.2089,
+      "lon": 106.8457,
+      "name": "Jalan Sudirman",
+      "distance_m": 12.5,
+      "road_class": "primary",
+      "way_ids": [123456, 123457],
+      "side": "left",
+      "node": {
+        "lat": -6.2089,
+        "lon": 106.8457
+      }
+    },
+    {
+      "input_lat": -6.2088,
+      "input_lon": 106.8456,
+      "lat": -6.2090,
+      "lon": 106.8459,
+      "name": "Jalan Thamrin",
+      "distance_m": 28.3,
+      "road_class": "primary",
+      "way_ids": [123458],
+      "side": "right",
+      "node": {
+        "lat": -6.2090,
+        "lon": 106.8459
+      }
+    }
+  ]
+}

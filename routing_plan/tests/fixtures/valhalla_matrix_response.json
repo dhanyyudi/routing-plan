@@ -1,0 +1,20 @@
+{
+  "sources": [
+    {"lat": -6.2088, "lon": 106.8456, "name": "Jakarta"},
+    {"lat": -6.1754, "lon": 106.8272, "name": "Monas"}
+  ],
+  "targets": [
+    {"lat": -6.2088, "lon": 106.8456, "name": "Jakarta"},
+    {"lat": -6.1754, "lon": 106.8272, "name": "Monas"},
+    {"lat": -6.1944, "lon": 106.8225, "name": "Bundaran HI"}
+  ],
+  "sources_to_targets": [
+    {"from_index": 0, "to_index": 0, "time": 0, "distance": 0.0, "date_time": "2024-01-01T00:00:00Z"},
+    {"from_index": 0, "to_index": 1, "time": 300, "distance": 2.5, "date_time": "2024-01-01T00:00:00Z"},
+    {"from_index": 0, "to_index": 2, "time": 600, "distance": 5.0, "date_time": "2024-01-01T00:00:00Z"},
+    {"from_index": 1, "to_index": 0, "time": 300, "distance": 2.5, "date_time": "2024-01-01T00:00:00Z"},
+    {"from_index": 1, "to_index": 1, "time": 0, "distance": 0.0, "date_time": "2024-01-01T00:00:00Z"},
+    {"from_index": 1, "to_index": 2, "time": 450, "distance": 3.5, "date_time": "2024-01-01T00:00:00Z"}
+  ],
+  "units": "kilometers"
+}

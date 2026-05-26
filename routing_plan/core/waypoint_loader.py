@@ -1,7 +1,7 @@
 import csv
 import json
 from dataclasses import dataclass
-from typing import Optional
+from typing import Any, Optional
 
 LAT_ALIASES = {"lat", "latitude", "y", "lintang"}
 LON_ALIASES = {"lon", "long", "longitude", "x", "bujur"}
@@ -186,6 +186,24 @@ def load_from_layer(layer, name_field=None):
     return _extract_from_layer(layer, name_field)
 
 
+def _wgs84_transform(layer):
+    """Return a QgsCoordinateTransform from ``layer``'s CRS to EPSG:4326,
+    or ``None`` if no transform is needed (layer already in 4326).
+
+    Critical because QGIS layers from XYZ-tile contexts are often in
+    EPSG:3857 (Web Mercator metres); calling ``pt.x()`` / ``pt.y()`` on
+    them gives metres, not lon/lat, which routing engines reject.
+    """
+    from qgis.core import (
+        QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsProject,
+    )
+    src = layer.crs()
+    dst = QgsCoordinateReferenceSystem("EPSG:4326")
+    if not src.isValid() or src == dst:
+        return None
+    return QgsCoordinateTransform(src, dst, QgsProject.instance())
+
+
 def _extract_from_layer(layer, name_field=None):
     waypoints = []
     fields = layer.fields()
@@ -202,6 +220,7 @@ def _extract_from_layer(layer, name_field=None):
                 name_idx = i
                 break
 
+    xform = _wgs84_transform(layer)
     for feature in layer.getFeatures():
         geom = feature.geometry()
         if geom is None:
@@ -210,6 +229,8 @@ def _extract_from_layer(layer, name_field=None):
             centroid = geom.centroid()
         else:
             centroid = geom
+        if xform is not None:
+            centroid.transform(xform)
         pt = centroid.asPoint()
         name = None
         if name_idx is not None and name_idx >= 0:
@@ -220,3 +241,56 @@ def _extract_from_layer(layer, name_field=None):
     if len(waypoints) < 2:
         raise ValueError("Minimal 2 waypoints required")
     return waypoints
+
+
+def load_trace_from_layer(
+    layer: Any, timestamp_field: str | None = None,
+) -> list[dict[str, Any]]:
+    """Extract coordinates from a QGIS vector layer as trace points.
+
+    Supports point and line layer geometry types. Returns a list of
+    ``{lat, lon, time?}`` dicts. If ``timestamp_field`` is provided
+    and exists in the layer, each point picks up that value as
+    ``time`` (UNIX seconds).
+
+    Points are ordered by index (point layer) or vertex order (line
+    layer). When ``timestamp_field`` is set, the returned list is
+    also sorted by that field.
+    """
+    from qgis.core import QgsWkbTypes
+
+    coords: list[dict[str, Any]] = []
+    fields = layer.fields()
+    ts_idx = fields.indexOf(timestamp_field) if timestamp_field else -1
+    xform = _wgs84_transform(layer)
+
+    for feat in layer.getFeatures():
+        geom = feat.geometry()
+        if not geom:
+            continue
+        if xform is not None:
+            geom = type(geom)(geom)  # shallow copy so we don't mutate the layer
+            geom.transform(xform)
+
+        ts_val = feat[ts_idx] if ts_idx >= 0 else None
+        geom_type = geom.type()
+        point_type = QgsWkbTypes.PointGeometry
+        line_type = QgsWkbTypes.LineGeometry
+
+        if geom_type == point_type:
+            pt = geom.asPoint()
+            entry: dict[str, Any] = {"lat": pt.y(), "lon": pt.x()}
+            if ts_val is not None:
+                entry["time"] = ts_val
+            coords.append(entry)
+        elif geom_type == line_type:
+            for v in geom.vertices():
+                entry = {"lat": v.y(), "lon": v.x()}
+                if ts_val is not None:
+                    entry["time"] = ts_val
+                coords.append(entry)
+
+    if timestamp_field and ts_idx >= 0 and len(coords) > 1:
+        coords.sort(key=lambda c: c.get("time", 0))
+
+    return coords
