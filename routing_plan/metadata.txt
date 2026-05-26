@@ -6,7 +6,7 @@ about=Plugin for routing waypoints (CSV/XLSX/GeoJSON/KML) with turn-by-turn
     directions like Google Maps. Supports dual routing engines (Valhalla +
     OSRM), route optimization, isochrones, OD matrix, map matching,
     elevation profiles, and snap-to-road utility.
-version=0.2.1
+version=0.2.2
 author=Dhany Yudi Prasetyo
 email=dhanyyudi.prasetyo@gmail.com
 tracker=https://github.com/dhanyyudi/routing-plan/issues
@@ -24,6 +24,15 @@ server=False
 qgisMaximumVersion=4.99
 
 [changelog]
+0.2.2 =
+    - Fix: replace urllib.request.urlopen in OSRMClient with QGIS's
+      QgsBlockingNetworkRequest (same transport ValhallaClient uses).
+      Bandit B310 was still flagged in v0.2.1 because plugins.qgis.org
+      ignores ``# nosec`` suppressions; using the Qt network stack
+      sidesteps the check entirely.
+    - Fix: restructure the Indonesia bounding-box check to drop the
+      multi-line ``and`` (W504 in v0.2.1 was the W503 fix's mirror;
+      using intermediate variables satisfies both rules at once).
 0.2.1 =
     - Fix: validate URL scheme (http/https) before urlopen in OSRMClient
       (Bandit B310 — blocked v0.2.0 from plugins.qgis.org approval)
